@@ -5,8 +5,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Branch Login</title>
-        <meta name="description" content="Branch Login" />
+        <title>NotifAI Login</title>
+        <meta name="description" content="NotifAI Login" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Login />
