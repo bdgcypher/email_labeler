@@ -37,6 +37,15 @@ export default function Navbar() {
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
+                  <div className="px-4 space-y-1">
+                    <Disclosure.Button
+                      as="a"
+                      href="/"
+                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                    >
+                      Sign out
+                    </Disclosure.Button>
+                  </div>
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="ml-3 relative">
@@ -71,7 +80,7 @@ export default function Navbar() {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              href="#"
+                              href="/"
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
                                 'block px-4 py-2 text-sm text-gray-700'
@@ -118,7 +127,7 @@ export default function Navbar() {
               <div className="mt-3 px-2 space-y-1">
                 <Disclosure.Button
                   as="a"
-                  href="#"
+                  href="/"
                   className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                 >
                   Sign out
