@@ -77,19 +77,6 @@ export default function Navbar() {
                                 'block px-4 py-2 text-sm text-gray-700'
                               )}
                             >
-                              Settings
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700'
-                              )}
-                            >
                               Sign out
                             </a>
                           )}
@@ -129,13 +116,6 @@ export default function Navbar() {
                 </button>
               </div>
               <div className="mt-3 px-2 space-y-1">
-                <Disclosure.Button
-                  as="a"
-                  href="#"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                >
-                  Settings
-                </Disclosure.Button>
                 <Disclosure.Button
                   as="a"
                   href="#"
