@@ -1,8 +1,5 @@
-import React, { useState, Fragment } from 'react';
-import { HiOutlineMail } from 'react-icons/hi'
-import { BsImage } from 'react-icons/bs'
-import { AiOutlineCloudUpload } from 'react-icons/ai'
-import { Dialog, Transition, Listbox } from '@headlessui/react'
+import React, { useState } from 'react';
+import { Dialog } from '@headlessui/react'
 
 
 
@@ -14,17 +11,25 @@ export default function UploadEmail() {
         { name: 'Step 4', href: '#', status: 'upcoming', id: 3 },
     ]
 
+    var [stepCounter, setStepCounter] = useState(0)
+
     var currentStep = steps[0]
+
     const setCurrentStep = () => {
         if (currentStep.id <= 2) {
             steps[currentStep.id].status = 'complete';
             currentStep = steps[(currentStep.id + 1)];
             steps[currentStep.id].status = 'current';
+            console.log(steps[currentStep.id - 1]);
             console.log(steps[currentStep.id]);
         } else {
             console.log(steps[currentStep.id])
         }
     }
+
+    for (let i = 0; i < stepCounter; i++) {
+        setCurrentStep()
+    };
 
     return (
 
@@ -58,24 +63,59 @@ export default function UploadEmail() {
                         ))}
                     </ol>
                 </nav>
-                <div className="mt-3 text-center sm:mt-5">
-                    <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                        Request Your Data
-                    </Dialog.Title>
-                    <div className="mt-2 px-4">
-                        <p className="text-sm text-gray-500">
-                            Login to the email account you want to get the emails for. Then go to <a href="https://takeout.google.com/" target="_blank" className="text-blue-500 hover:underline">https://takeout.google.com/</a>
-                        </p>
+                {steps[0].status === 'current' ? (
+                    <div className="mt-3 text-center sm:mt-5">
+                        <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                            Request Your Data
+                        </Dialog.Title>
+                        <div className="mt-2 px-4">
+                            <p className="text-sm text-gray-500">
+                                Login to the email account you want to get the emails for. Then go to <a href="https://takeout.google.com/" target="_blank" className="text-blue-500 hover:underline">https://takeout.google.com/</a>
+                            </p>
+                        </div>
                     </div>
-                </div>
+                ) : steps[1].status === 'current' ? (
+                    <div className="mt-3 text-center sm:mt-5">
+                        <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                            Select Only Email Data
+                        </Dialog.Title>
+                        <div className="mt-2 px-4">
+                            <p className="text-sm text-gray-500">
+                                Scroll down to the “Create a new Export” section. Then, proceed to click the “Deselect All” button. Scroll down till you see the section that says "Mail" and select it. Finally, scroll to the very bottom and hit the “Next Step” button.
+                            </p>
+                        </div>
+                    </div>
+                ) : steps[2].status === 'current' ? (
+                    <div className="mt-3 text-center sm:mt-5">
+                        <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                            Download Email Data
+                        </Dialog.Title>
+                        <div className="mt-2 px-4">
+                            <p className="text-sm text-gray-500">
+                                Hit the “Create Export” button. A download link will be sent to your email; it may take a while for the link to be sent, so take a break and relax. Once the link arrives, click on it and begin the download.
+                            </p>
+                        </div>
+                    </div>
+                ) : steps[3].status === 'current' ? (
+                    <div className="mt-3 text-center sm:mt-5">
+                        <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                            Upload Email Data
+                        </Dialog.Title>
+                        <div className="mt-2 px-4">
+                            <p className="text-sm text-gray-500">
+                                Once the email data has finished downloading, upload the file by clicking the button below.
+                            </p>
+                        </div>
+                    </div>
+                ) : null}
             </div>
             <div className="mt-5 sm:mt-6">
                 <button
                     type="button"
                     className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
-                    onClick={() => { setCurrentStep() }}
+                    onClick={() => {setStepCounter(stepCounter + 1) }}
                 >
-                    Next Step
+                    {steps[3].status === 'current' ? 'Upload Data' : 'Next Step'}
                 </button>
             </div>
         </>
