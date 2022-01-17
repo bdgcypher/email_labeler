@@ -3,11 +3,11 @@ import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
 
 export default function Register() {
   return (
-    <div className="min-h-screen bg-gray-900 pt-10 pb-10">
+    <div className="min-h-screen bg-gray-900 pt-10 pb-40">
       <a href="/">
         <BsFillArrowLeftCircleFill className="h-10 w-10 ml-6 lg:ml-20 text-gray-100 hover:text-blue-600" />
       </a>
-      <div className="min-h-full lg:w-1/2 w-5/6 mx-auto mt-10 lg:mt-40 mb-40 flex flex-col justify-center rounded-md shadow-md pb-20 pt-10 px-6 lg:px-8 bg-gray-200">
+      <div className="min-h-full lg:w-1/2 w-5/6 mx-auto mt-10 lg:mt-20 flex flex-col justify-center rounded-md shadow-md pb-20 pt-10 px-6 lg:px-8 bg-gray-200">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Register</h2>
           <p className="mt-2 text-center text-sm text-gray-600">
