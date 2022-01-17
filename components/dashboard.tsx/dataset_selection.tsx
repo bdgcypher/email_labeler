@@ -42,7 +42,7 @@ export default function DatasetSelection() {
 
     return (
         <>
-            <div className="bg-white shadow-lg overflow-hidden m-2 lg:mx-auto lg:mt-20 rounded-md lg:w-1/2">
+            <div className="bg-white shadow-lg overflow-hidden m-2 md:mx-auto md:mt-20 rounded-md md:w-1/2">
                 <ul role="list" className="divide-y divide-gray-200">
                     <li key={0}>
                         <a href="#" className="block hover:bg-gray-50">
