@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import DatasetSelection from '../components/dashboard/dataset_selection'
+import DatasetSelection from '../components/dashboard.tsx/dataset_selection'
 import Navbar from '../components/navbar'
 
 export default function Home() {
