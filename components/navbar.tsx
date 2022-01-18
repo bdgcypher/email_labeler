@@ -30,13 +30,6 @@ export default function Navbar() {
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex items-center">
-                  <button
-                    type="button"
-                    className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                  >
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
                   <div className="px-4 space-y-1">
                     <Disclosure.Button
                       as="a"

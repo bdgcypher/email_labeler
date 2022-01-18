@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import DatasetSelection from '../components/dashboard.tsx/dataset_selection'
 import Navbar from '../components/navbar'
+import Sidebar from '../components/sidebar'
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
+      {/* <Sidebar /> */}
       <DatasetSelection />
     </>
   )
