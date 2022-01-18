@@ -8,7 +8,7 @@ export default function ProcessProgress() {
 
     React.useEffect(() => {
         const timer = setInterval(() => {
-            setProgress((prevProgress) => (prevProgress >= 71290 ? 0 : prevProgress + 2624));
+            setProgress((prevProgress) => (prevProgress >= 71290 ? 71290 : prevProgress + 2624));
         }, 800);
 
         return () => {

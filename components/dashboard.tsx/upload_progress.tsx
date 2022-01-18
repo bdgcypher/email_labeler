@@ -8,7 +8,7 @@ export default function UploadProgress() {
 
     React.useEffect(() => {
         const timer = setInterval(() => {
-            setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
+            setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 10));
         }, 1000);
 
         return () => {
