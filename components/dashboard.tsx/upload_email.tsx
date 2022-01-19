@@ -3,7 +3,7 @@ import { Dialog } from '@headlessui/react'
 
 
 
-export default function UploadEmail() {
+export default function UploadEmail({setEmail, setUploadInProgress}) {
     var steps = [
         { name: 'Step 1', href: '#', status: 'current', id: 0 },
         { name: 'Step 2', href: '#', status: 'upcoming', id: 1 },
@@ -113,7 +113,7 @@ export default function UploadEmail() {
                 <button
                     type="button"
                     className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
-                        onClick={() => {setStepCounter(stepCounter + 1)}}
+                        onClick={() => {{setStepCounter(stepCounter + 1)}; {steps[3].status === 'current' ? setEmail(false) & setUploadInProgress(true) : null }}}
                 >
                     {steps[3].status === 'current' ? 'Upload Data' : 'Next Step'}
                 </button>

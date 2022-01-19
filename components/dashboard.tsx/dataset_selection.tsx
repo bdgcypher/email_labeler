@@ -39,7 +39,7 @@ export default function DatasetSelection() {
 
     const [email, setEmail] = useState(false)
 
-    const [uploadInProgress, setUploadInProgress] = useState(true);
+    const [uploadInProgress, setUploadInProgress] = useState(false);
     const [processingInProgress, setProcessingInProgress] = useState(false);
     const [uploadError, setUploadError] = useState(false);
     const [uploadSuccessful, setUploadSuccessful] = useState(false);
@@ -119,32 +119,14 @@ export default function DatasetSelection() {
                         >
                             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-10 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                                 {email ? (
-                                    <UploadEmail />
+                                    <UploadEmail setEmail={setEmail} setUploadInProgress={setUploadInProgress} />
                                 ) : uploadInProgress ? (
                                     <>
-                                        <UploadProgress />
-                                        <div className="mt-5 sm:mt-6">
-                                            <button
-                                                type="button"
-                                                className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
-                                                onClick={() => {setProcessingInProgress(true), setUploadInProgress(false)}}
-                                            >
-                                                Begin Processing
-                                            </button>
-                                        </div>
+                                        <UploadProgress setUploadInProgress={setUploadInProgress} setProcessingInProgress={setProcessingInProgress} />
                                     </>
                                 ) : processingInProgress ? (
                                     <>
-                                        <ProcessProgress />
-                                        <div className="mt-5 sm:mt-6">
-                                            <button
-                                                type="button"
-                                                className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
-                                                onClick={() => {setUploadError(true), setProcessingInProgress(false)}}
-                                            >
-                                                Next
-                                            </button>
-                                        </div>
+                                        <ProcessProgress setProcessingInProgress={setProcessingInProgress} setUploadError={setUploadError} setUploadSuccessful={setUploadSuccessful} />
                                     </>
                                 ) : uploadSuccessful ? (
                                     <>

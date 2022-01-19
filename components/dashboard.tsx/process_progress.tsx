@@ -3,13 +3,15 @@ import { Dialog } from '@headlessui/react'
 import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 
-export default function ProcessProgress() {
+export default function ProcessProgress({setProcessingInProgress, setUploadError, setUploadSuccessful}) {
     const [progress, setProgress] = React.useState(0);
 
     React.useEffect(() => {
         const timer = setInterval(() => {
-            setProgress((prevProgress) => (prevProgress >= 71290 ? 71290 : prevProgress + 2624));
-        }, 800);
+            // when the datasets are processed display error message. Only for now to demo UI
+            // Change this later ^^^
+            setProgress((prevProgress) => (prevProgress >= 71290 ? setProcessingInProgress(false) & setUploadError(true) : prevProgress + 2624));
+        }, 500);
 
         return () => {
             clearInterval(timer);

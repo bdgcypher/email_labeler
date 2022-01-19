@@ -3,12 +3,12 @@ import { Dialog } from '@headlessui/react'
 import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 
-export default function UploadProgress() {
+export default function UploadProgress({setUploadInProgress, setProcessingInProgress}) {
     const [progress, setProgress] = React.useState(0);
 
     React.useEffect(() => {
         const timer = setInterval(() => {
-            setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 10));
+            setProgress((prevProgress) => (prevProgress >= 100 ? setUploadInProgress(false) & setProcessingInProgress(true) : prevProgress + 10));
         }, 1000);
 
         return () => {
