@@ -46,10 +46,10 @@ export const CardSwiper = (props: TProps) => {
       return "right";
     } else if (mx - x.current < -(props.detectingSize ?? 100)) {
       return "left";
-    } else if (my - y.current < -(props.detectingSize ?? 100)) {
-      return "up";
-    } else if (my - y.current > (props.detectingSize ?? 100)) {
-      return "down";
+    // } else if (my - y.current < -(props.detectingSize ?? 100)) {
+    //   return "up";
+    // } else if (my - y.current > (props.detectingSize ?? 100)) {
+    //   return "down";
     } else return "none";
   };
 
@@ -70,7 +70,7 @@ export const CardSwiper = (props: TProps) => {
       gsap.to(target.current, {
         transformOrigin: `${origin[0]}% ${origin[1]}%`,
         x: (mx - x.current) * 0.2,
-        y: (my - y.current) * 0.8,
+        // y: (my - y.current) * 0.8,
         rotation: origin[2] * angle,
         duration: 0,
       });
@@ -101,22 +101,22 @@ export const CardSwiper = (props: TProps) => {
         display: "none",
         duration: 0,
       });
-    } else if (d === "up" || d === "down") {
-      const tl = gsap.timeline();
-      tl.to(target.current, {
-        x:
-          (mx - x.current > 0 ? 1 : -1) *
-            (props.throwLimit ?? 3000) *
-            Math.tan((angle * Math.PI) / 180) +
-          "px",
-        y: (my - y.current > 0 ? 1 : -1) * (props.throwLimit ?? 3000) + "px",
-        duration: 0.5,
-        ease: "power1.in",
-      });
-      tl.to(target.current, {
-        display: "none",
-        duration: 0,
-      });
+    // } else if (d === "up" || d === "down") {
+    //   const tl = gsap.timeline();
+    //   tl.to(target.current, {
+    //     x:
+    //       (mx - x.current > 0 ? 1 : -1) *
+    //         (props.throwLimit ?? 3000) *
+    //         Math.tan((angle * Math.PI) / 180) +
+    //       "px",
+    //     y: (my - y.current > 0 ? 1 : -1) * (props.throwLimit ?? 3000) + "px",
+    //     duration: 0.5,
+    //     ease: "power1.in",
+    //   });
+    //   tl.to(target.current, {
+    //     display: "none",
+    //     duration: 0,
+    //   });
     } else {
       gsap.to(target.current, {
         x: 0,
