@@ -116,7 +116,7 @@ export default function Sidebar() {
                     </Dialog>
                 </Transition.Root>
                 <div className=" flex flex-col col-2 flex-1">
-                    <div className="sticky flex items-center justify-between top-0 z-11 pt-1 sm:pl-3 sm:pt-3 bg-gray-900">
+                    <div className="sticky flex items-center justify-between top-0 z-11 pt-1 sm:pl-3 sm:pt-3 bg-gray-900 border-b-2 border-b-gray-800">
                         <img
                             className="block lg:hidden h-16 w-auto"
                             src="/NotifAIicon.png"
@@ -136,10 +136,6 @@ export default function Sidebar() {
                             <MenuIcon className="h-6 w-6" aria-hidden="true" />
                         </button>
                     </div>
-                    <main className="flex-1">
-                        <div className="py-6">
-                        </div>
-                    </main>
                 </div>
             </div>
         </>

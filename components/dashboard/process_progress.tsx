@@ -33,7 +33,7 @@ export default function ProcessProgress({setProcessingInProgress, setUploadError
             <hr className="h-px my-2 bg-gray-500" />
             <div className="flex flex-row">
                 <div className="px-4 sm:p-6">
-                    <dt className="text-base font-normal text-gray-900">Uploaded</dt>
+                    <dt className="text-base font-normal text-gray-900">Processed</dt>
                     <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
                         <div className="flex items-baseline text-2xl font-semibold text-blue-600">
                             {progress}

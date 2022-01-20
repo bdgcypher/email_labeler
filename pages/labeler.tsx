@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import DatasetSelection from '../components/dashboard/dataset_selection'
+import SwipingInterface from '../components/labeler/swiping_interface'
 import Sidebar from '../components/sidebar'
 
 export default function Home() {
@@ -11,7 +11,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Sidebar />
-      <DatasetSelection />
+      <div className="h-80 bg-gray-900" />
+      <SwipingInterface />
     </>
   )
 }
