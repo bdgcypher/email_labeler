@@ -5,8 +5,13 @@ import { CardSwiper } from './card_swiper_function';
 
 export default function SwipingInterface() {
 
-    const handleSwipe = (d) => {
-        //fill this your callback
+    const handleSwipe = (d: any) => {
+        //fill this with callback
+        if (d === "right") {
+            console.log("yes I wanted a notification")
+        } else if (d === "left") {
+            console.log("no I didn't want one")
+        }
     };
 
     return (
