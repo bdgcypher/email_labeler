@@ -3,6 +3,7 @@ import { RiCloseFill } from 'react-icons/ri';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { CardSwiper } from './card_swiper_function';
 
+
 export default function SwipingInterface() {
 
     const handleSwipe = (d: any) => {

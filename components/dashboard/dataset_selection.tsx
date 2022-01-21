@@ -90,7 +90,7 @@ export default function DatasetSelection() {
                 </ul>
             </div>
             <Transition.Root show={open} as={Fragment}>
-                <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={() => { setOpen(false); setEmail(false) }}>
+                <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={() => { setOpen(false); setEmail(false); setUploadInProgress(false); setProcessingInProgress(false); setUploadError(false); setUploadSuccessful(false); }}>
                     <div className="flex items-end justify-center pt-60 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
