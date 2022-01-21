@@ -58,7 +58,7 @@ export default function SwipingInterface() {
             />
             <CardSwiper
                 onSwipe={handleSwipe}
-                className="h-96 m-auto -mt-96 bg-white rounded-md p-8 overflow-y-auto shadow-xl border-b-8 border-b-white"
+                className="h-96 m-auto -mt-96 bg-white rounded-md p-2 overflow-y-auto shadow-xl border-b-8 border-b-white"
                 contents={
                     //Email content will go here vvv
                     <>

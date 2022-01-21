@@ -42,9 +42,9 @@ export const CardSwiper = (props: TProps) => {
   };
 
   const selectDirection = async (mx: number, my: number) => {
-    if (mx - x.current > (props.detectingSize ?? 300)) {
+    if (mx - x.current > (props.detectingSize ?? 100)) {
       return "right";
-    } else if (mx - x.current < -(props.detectingSize ?? 300)) {
+    } else if (mx - x.current < -(props.detectingSize ?? 100)) {
       return "left";
     } else return "none";
   };
@@ -86,8 +86,8 @@ export const CardSwiper = (props: TProps) => {
         x: (mx - x.current > 0 ? 1 : -1) * (props.throwLimit ?? 3000) + "px",
         y:
           (my - y.current > 0 ? 1 : -1) *
-            (props.throwLimit ?? 3000) *
-            Math.tan((angle * Math.PI) / 180) +
+          (props.throwLimit ?? 3000) *
+          Math.tan((angle * Math.PI) / 180) +
           "px",
         duration: 0.5,
         ease: "power1.in",
@@ -115,7 +115,6 @@ export const CardSwiper = (props: TProps) => {
   const handleTouchStart = (e: any) => {
     const mx = e.targetTouches[0].clientX;
     const my = e.targetTouches[0].clientY;
-
     onStart(mx, my);
   };
 
@@ -166,6 +165,16 @@ export const CardSwiper = (props: TProps) => {
     }
   };
 
+  const handleKeyDown = (e: any) => {
+    window.addEventListener('keyup', function (e) {
+      if (e.key === "ArrowLeft") {
+        onEnd(1000, 1000);
+      } else if (e.key === "ArrowRight") {
+        console.log("ArrowRight")
+      };
+    }, false);
+  };
+
   useEffect(() => {
     const info = target.current?.getBoundingClientRect();
     if (info !== undefined) {
@@ -173,23 +182,11 @@ export const CardSwiper = (props: TProps) => {
     }
 
     if (target.current !== null) {
-      target.current.addEventListener("touchstart", (ev) => {
-        ev.preventDefault();
-      });
-
       target.current.addEventListener("mousedown", (ev) => {
         ev.preventDefault();
       });
 
-      target.current.addEventListener("touchmove", (ev) => {
-        ev.preventDefault();
-      });
-
       target.current.addEventListener("mousemove", (ev) => {
-        ev.preventDefault();
-      });
-
-      target.current.addEventListener("touchend", (ev) => {
         ev.preventDefault();
       });
 
@@ -200,6 +197,7 @@ export const CardSwiper = (props: TProps) => {
       target.current.addEventListener("mouseleave", (ev) => {
         ev.preventDefault();
       });
+
     }
   }, []);
   return (
@@ -213,6 +211,7 @@ export const CardSwiper = (props: TProps) => {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
+      onKeyDown={handleKeyDown}
     >
       {props.contents}
     </div>
