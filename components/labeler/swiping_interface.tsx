@@ -11,7 +11,7 @@ export default function SwipingInterface() {
         if (d === "right") {
             console.log("yes I wanted a notification")
         } else if (d === "left") {
-            console.log("no I didn't want one")
+            console.log("no I didn't want a notification")
         }
     };
 
