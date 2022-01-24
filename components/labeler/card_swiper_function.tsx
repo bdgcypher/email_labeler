@@ -201,15 +201,15 @@ export const CardSwiper = (props: TProps) => {
             // trying to add functionality for arrow key navigation
             // can't single out each card yet
 
-            window.addEventListener('keyup', function (ev) {
-                if (ev.key === "ArrowLeft") {
-                    console.log("ArrowLeft");
-                    onEnd(-1000, -1000);
-                } else if (ev.key === "ArrowRight") {
-                    console.log("ArrowRight")
-                    onEnd(1000, 1000);
-                };
-            }, false);
+            // window.addEventListener('keyup', function (ev) {
+            //     if (ev.key === "ArrowLeft") {
+            //         console.log("ArrowLeft");
+            //         onEnd(-1000, -1000);
+            //     } else if (ev.key === "ArrowRight") {
+            //         console.log("ArrowRight")
+            //         onEnd(1000, 1000);
+            //     };
+            // }, false);
 
         }
     }, []);

@@ -16,7 +16,7 @@ export default function SwipingInterface() {
         }
     };
 
-//     var canvas = document.getElementById("canvas"),
+    // var canvas = document.getElementById("canvas"),
 //     html = `
 // <!DOCTYPE html>
 // <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -120,7 +120,7 @@ export default function SwipingInterface() {
             <CardSwiper
                 onSwipe={handleSwipe}
                 detectingSize={100}
-                className="h-96 m-auto -mt-40 bg-white rounded-md p-8 overflow-y-auto shadow-xl border-b-8 border-b-white"
+                className="h-96 m-auto -mt-40 bg-white rounded-md p-8 overflow-y-auto shadow-xl border-b-8 border-b-white opacity-95"
                 contents={
                     //Email content will go here vvv
                     <>
@@ -158,18 +158,17 @@ export default function SwipingInterface() {
             />
             <CardSwiper
                 onSwipe={handleSwipe}
-                className="h-96 m-auto -mt-96 bg-white rounded-md p-2 overflow-y-auto shadow-xl border-b-8 border-b-white"
+                className="h-96 m-auto -mt-96 bg-white rounded-md p-2 overflow-y-auto shadow-xl border-b-8 border-b-white  opacity-95"
                 contents={
                     //Email content will go here vvv
                     <>
-                        {/* <img src="email_example.jpg" className="mx-auto" /> */}
-                        <canvas id="canvas" width="700" height="1000"></canvas>
+                        <img src="email_example.jpg" className="mx-auto z-0" />
                     </>
                 }
             />
             <CardSwiper
                 onSwipe={handleSwipe}
-                className="h-96 m-auto -mt-96 bg-white rounded-md p-8 overflow-y-auto shadow-xl border-b-8 border-b-white"
+                className="h-96 m-auto -mt-96 bg-white rounded-md p-8 overflow-y-auto shadow-xl border-b-8 border-b-white opacity-95"
                 contents={
                     //Email content will go here vvv
                     <>
@@ -207,7 +206,7 @@ export default function SwipingInterface() {
             />
             <CardSwiper
                 onSwipe={handleSwipe}
-                className="h-96 m-auto -mt-96 bg-white rounded-md p-8 overflow-y-auto shadow-xl border-b-8 border-b-white"
+                className="h-96 m-auto -mt-96 bg-white rounded-md p-8 overflow-y-auto shadow-xl border-b-8 border-b-white opacity-95"
                 contents={
                     //Email content will go here vvv
                     <>

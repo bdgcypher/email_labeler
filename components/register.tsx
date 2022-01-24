@@ -28,12 +28,14 @@ export default function Register() {
     const { fullName, email, password } = form;
 
     // will change later vvv
-    const URL = Domain + '/user'
+    const URL = Domain
 
     console.log(URL);
 
     let config = {
-      headers: { 'api_key': api_key }
+      headers: { 
+        'api_key': api_key,
+     }
     }
 
     let data = {
@@ -42,7 +44,7 @@ export default function Register() {
       'name': fullName,
     }
 
-    await axios.post(URL, data, config).then(response => { console.log(response.status) });
+    await axios.post(`${URL}user`, data, config).then(response => { console.log(response.status) });
 
     // window.location.reload();
 
@@ -127,14 +129,14 @@ export default function Register() {
               </div>
 
               <div>
-                <Link href="/dashboard">
+
                   <button
                     type="submit"
                     className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   >
                     Register
                   </button>
-                </Link>
+
               </div>
             </form>
 

@@ -112,7 +112,7 @@ export default function UploadEmail({ setEmail, setUploadInProgress }) {
             <div className="mt-5 sm:mt-6">
                 {steps[3].status === 'current' ? (
                     <form action="#" className="text-center pb-4" id="upload_form">
-                        <input type="file" id="dataset_file" name="dataset_file" required />
+                        <input type="file" id="dataset_file" name="dataset_file" multiple required />
                     </form>
                 ) : null}
                 <button
