@@ -36,9 +36,7 @@ export default function Register() {
 
     let config = {
       headers: {
-        'Api-Key': 'kljsadhflkjasdhg',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'localhost:3000'
+        'Api-Key': apiKey,
       }
     }
 
@@ -48,21 +46,7 @@ export default function Register() {
       'name': fullName,
     }
 
-
-
-    // Fetch request version
-
-    // await fetch('https://server-afostvvzwa-wm.a.run.app/user', {
-    //   method: "POST", headers: {
-    //     'Api-Key': 'CXng6YegWR6gAPWtmdqrP5Qc2v22AQV7KU',
-    //     'Content-Type': 'application/json'
-    //   }, body: JSON.stringify(data)
-    // })
-    //   .then(response => {
-    //     console.log(response.status)
-    //   });
-
-  await axios.post(URL, {mode: 'no-cors', data, config}).then(response => { console.log(response.status) });
+  await axios.post(URL, JSON.stringify(data), config).then(response => { console.log(response.status) });
 
   // window.location.reload();
 
