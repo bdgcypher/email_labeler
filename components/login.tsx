@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import { Domain, api_key } from './domain'
+import { Domain, apiKey } from './domain'
 
 export default function Login() {
 
@@ -29,7 +29,7 @@ export default function Login() {
     const URL = Domain + '/user/login'
 
     let config = {
-      headers: { 'api_key': api_key }
+      headers: { 'api_key': apiKey }
     }
 
     let data = {
