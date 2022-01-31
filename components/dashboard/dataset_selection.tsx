@@ -9,24 +9,28 @@ import UploadSuccessful from './upload_successful';
 import UploadError from './upload_error';
 import UploadProgress from './upload_progress';
 import ProcessProgress from './process_progress';
+import axios from 'axios'
+import { Domain, apiKey } from '../domain'
+import { userInfo } from '../user_info'
 
-const datasets = [
-    {
-        id: 1,
-        title: 'Personal Emails',
-        type: 'Email',
-    },
-    {
-        id: 2,
-        title: 'Fire Dataset',
-        type: 'Image',
-    },
-]
+const datasets = []
+
+try {
+    axios.get(`${Domain}dataset`, {
+        headers: {
+            "Api-Key": apiKey,
+            "Authorization": userInfo.getToken()
+        }
+    }).then(response => { console.log(response); });
+} catch (err) {
+    console.log(err);
+}
+
 
 const dataset_types = [
     { type: 'Email', format: '.mbox' },
-    { type: 'Image', format: '.png or .jpg' },
-    { type: 'Text', format: '.txt or .pdf or .docx' },
+    // { type: 'Image', format: '.png or .jpg' },
+    // { type: 'Text', format: '.txt or .pdf or .docx' },
 ]
 
 function classNames(...classes: string[]) {
@@ -43,6 +47,8 @@ export default function DatasetSelection() {
     const [processingInProgress, setProcessingInProgress] = useState(false);
     const [uploadError, setUploadError] = useState(false);
     const [uploadSuccessful, setUploadSuccessful] = useState(false);
+
+    console.log(userInfo.getToken())
 
     return (
         <>
@@ -148,7 +154,7 @@ export default function DatasetSelection() {
                                             <button
                                                 type="button"
                                                 className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
-                                                onClick={() => {setUploadError(false), setUploadInProgress(true)}}
+                                                onClick={() => { setUploadError(false), setUploadInProgress(true) }}
                                             >
                                                 Upload Data
                                             </button>

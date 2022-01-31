@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
-import Cookies from 'universal-cookie'
 import axios from 'axios'
 import { Domain, apiKey } from './domain'
-import fetch from 'node-fetch';
+
+var userToken = '';
 
 export default function Register() {
-
-  const cookies = new Cookies();
 
   const initialState = {
     fullName: '',
@@ -21,7 +19,6 @@ export default function Register() {
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    console.log(form);
   }
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
@@ -30,9 +27,6 @@ export default function Register() {
 
     // will change later vvv
     const URL = `${Domain}user`
-
-    console.log(URL);
-    console.log(form);
 
     let config = {
       headers: {
@@ -46,9 +40,9 @@ export default function Register() {
       'name': fullName,
     }
 
-  await axios.post(URL, JSON.stringify(data), config).then(response => { console.log(response.status) });
+    await axios.post(URL, JSON.stringify(data), config).then(response => { userToken = response.data.access_token, console.log(response.status, userToken ); {userToken !== '' ? window.location.replace('/dashboard') : alert(response.status);}});
 
-  // window.location.reload();
+  window.location.replace('/dashboard');
 
 }
 

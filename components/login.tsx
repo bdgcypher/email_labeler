@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
-import Cookies from 'universal-cookie'
 import axios from 'axios'
 import { Domain, apiKey } from './domain'
+import { userInfo } from './user_info'
 
-export default function Login() {
 
-  const cookies = new Cookies();
+export default function Login( userToken: any) {
 
   const initialState = {
     email: '',
@@ -18,7 +17,6 @@ export default function Login() {
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    console.log(form);
   }
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
@@ -26,10 +24,10 @@ export default function Login() {
     const { email, password } = form;
 
     // will change later vvv
-    const URL = Domain + '/user/login'
+    const URL = `${Domain}user/login`
 
     let config = {
-      headers: { 'api_key': apiKey }
+      headers: { 'Api-Key': apiKey }
     }
 
     let data = {
@@ -37,9 +35,19 @@ export default function Login() {
       'password': password,
     }
 
-    await axios.post(URL, data, config).then(response => { console.log(response.status) });
+    await axios.post(URL, JSON.stringify(data), config)
+      .then(response => {
+        userInfo.setToken(response.data.access_token);
+        let userToken = userInfo.token;
+        console.log(response.status, userToken);
+        {
+          userToken == response.data.access_token ? window.location.replace('/dashboard')
+            : alert(response.status);
+        }
+      });
 
-    // window.location.reload();
+
+
 
   }
 
@@ -90,14 +98,12 @@ export default function Login() {
               </div>
 
               <div>
-                <Link href="/dashboard">
-                  <button
-                    type="submit"
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    Sign in
-                  </button>
-                </Link>
+                <button
+                  type="submit"
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Sign in
+                </button>
               </div>
             </form>
 
