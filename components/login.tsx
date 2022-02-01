@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 import { Domain, apiKey } from './domain'
-import { userInfo } from './user_info'
 
+const cookies = new Cookies();
 
 export default function Login( userToken: any) {
 
@@ -35,9 +36,18 @@ export default function Login( userToken: any) {
       'password': password,
     }
 
+    let userInfo = {
+      'email': '',
+      'token': '',
+    }
+
     await axios.post(URL, JSON.stringify(data), config)
       .then(response => {
-        userInfo.setToken(response.data.access_token);
+        userInfo.email = email;
+        userInfo.token = response.data.access_token;
+
+        cookies.set('user', userInfo);
+
         let userToken = userInfo.token;
         console.log(response.status, userToken);
         {

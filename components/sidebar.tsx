@@ -6,6 +6,13 @@ import {
     MenuIcon,
     XIcon,
 } from '@heroicons/react/outline'
+import axios from 'axios'
+import Cookies from 'universal-cookie'
+import { Domain, apiKey } from './domain'
+
+const cookies = new Cookies();
+
+const user = cookies.get('user');
 
 const navigation = [
     { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
@@ -19,7 +26,18 @@ function classNames(...classes: string[]) {
 export default function Sidebar() {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const handleLogout = () => {
+        try {
+            axios.get(`${Domain}user/logout/${user.email}`, {
+                headers: {
+                    "Api-Key": apiKey,
+                    "Authorization": user.token
+                }
+            }).then(response => { console.log(response);});
+        } catch (err) {
+            console.log(err);
+        }
 
+        window.location.replace('/')
     }
 
     return (

@@ -10,22 +10,25 @@ import UploadError from './upload_error';
 import UploadProgress from './upload_progress';
 import ProcessProgress from './process_progress';
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 import { Domain, apiKey } from '../domain'
-import { userInfo } from '../user_info'
 
-const datasets = []
+const cookies = new Cookies();
+
+const user = cookies.get('user');
 
 try {
     axios.get(`${Domain}dataset`, {
         headers: {
             "Api-Key": apiKey,
-            "Authorization": userInfo.getToken()
+            "Authorization": user.token
         }
-    }).then(response => { console.log(response); });
+    }).then(response => { console.log(response); cookies.set('datasets', response.data) });
 } catch (err) {
     console.log(err);
 }
 
+const datasets = cookies.get('datasets')
 
 const dataset_types = [
     { type: 'Email', format: '.mbox' },
@@ -73,9 +76,9 @@ export default function DatasetSelection() {
                             </div>
                         </a>
                     </li>
-                    {datasets.map((dataset) => (
+                    {/* {datasets.map((dataset) => (
                         <li key={dataset.id}>
-                            <a href={dataset.type === 'Email' ? '/labeler' : '#'} className="block hover:bg-gray-50">
+                            <a href={dataset.data_type === 'mbox' ? '/labeler' : '#'} className="block hover:bg-gray-50">
                                 <div className="px-4 py-4 sm:px-6">
                                     <div className="flex items-center justify-between">
                                         <p className="text-sm font-medium text-blue-600 truncate">{dataset.title}</p>
@@ -83,16 +86,16 @@ export default function DatasetSelection() {
                                     <div className="mt-2 sm:flex sm:justify-between">
                                         <div className="sm:flex">
                                             <p className="flex items-center text-sm text-gray-500">
-                                                {dataset.type === 'Email' && <HiOutlineMail className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />}
-                                                {dataset.type === 'Image' && <BsImage className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />}
-                                                {dataset.type}
+                                                {dataset.data_type === 'mbox' && <HiOutlineMail className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />}
+                                                {dataset.data_type === 'Image' && <BsImage className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />}
+                                                {dataset.data_type}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </a>
                         </li>
-                    ))}
+                    ))} */}
                 </ul>
             </div>
             <Transition.Root show={open} as={Fragment}>
