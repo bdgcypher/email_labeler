@@ -51,8 +51,6 @@ export default function DatasetSelection() {
     const [uploadError, setUploadError] = useState(false);
     const [uploadSuccessful, setUploadSuccessful] = useState(false);
 
-    console.log(userInfo.getToken())
-
     return (
         <>
             <div className="bg-white shadow-lg overflow-hidden m-2 md:mx-auto lg:mt-20 rounded-md md:w-1/2">
