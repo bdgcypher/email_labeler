@@ -14,6 +14,7 @@ export default function Register() {
     email: '',
     password: '',
     confirmPassword: '',
+    joinCode: ''
   }
 
   const [form, setForm] = useState(initialState);
@@ -24,7 +25,7 @@ export default function Register() {
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    const { fullName, email, password } = form;
+    const { fullName, email, password, joinCode } = form;
 
     // will change later vvv
     const URL = `${Domain}user`
@@ -39,6 +40,7 @@ export default function Register() {
       'email': email,
       'password': password,
       'name': fullName,
+      'join_code': joinCode,
     }
 
     let userInfo = {
@@ -126,7 +128,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                   Confirm Password
                 </label>
                 <div className="mt-1">
@@ -134,6 +136,22 @@ export default function Register() {
                     id="confirmPassword"
                     name="confirmPassword"
                     type="password"
+                    onChange={handleChange}
+                    required
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="joinCode" className="block text-sm font-medium text-gray-700">
+                  Join Code
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="joinCode"
+                    name="joinCode"
+                    type="text"
                     onChange={handleChange}
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"

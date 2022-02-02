@@ -14,7 +14,8 @@ export default function UploadSuccessful() {
                 </Dialog.Title>
                 <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                        You have completed all the steps and are ready to go. Nice job!
+                        You have completed all the steps and your dataset has been uploaded to our server. Your dataset is now being processed by our system. 
+                        This could take a while so go get a snack, maybe watch a youtube video or something and check back in a bit!
                     </p>
                 </div>
             </div>

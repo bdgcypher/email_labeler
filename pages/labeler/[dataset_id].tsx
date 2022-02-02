@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import LabelingProgress from '../components/labeler/labeling_progress'
-import SwipingInterface from '../components/labeler/swiping_interface'
-import Sidebar from '../components/sidebar'
+import LabelingProgress from '../../components/labeler/labeling_progress'
+import SwipingInterface from '../../components/labeler/swiping_interface'
+import Sidebar from '../../components/sidebar'
 
 export default function Home() {
   return (

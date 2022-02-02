@@ -8,7 +8,7 @@ import UploadEmail from './upload_email';
 import UploadSuccessful from './upload_successful';
 import UploadError from './upload_error';
 import UploadProgress from './upload_progress';
-import ProcessProgress from './process_progress';
+import ProcessStatus from './process_status';
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { Domain, apiKey } from '../domain'
@@ -17,7 +17,7 @@ const cookies = new Cookies();
 
 const user = cookies.get('user');
 
-const datasets = []
+var datasets = []
 
 try {
     axios.get(`${Domain}dataset`, {
@@ -25,14 +25,12 @@ try {
             "Api-Key": apiKey,
             "Authorization": user.token
         }
-    }).then(response => { console.log(response); cookies.set('datasets', response.data) });
+    }).then(response => { console.log(response); cookies.set('datasets', response.data); });
 } catch (err) {
     console.log(err);
 }
 
-datasets.push(cookies.get('datasets'))
-
-console.log(datasets, 'hello');
+datasets = cookies.get('datasets')
 
 const dataset_types = [
     { type: 'Email', format: '.mbox' },
@@ -44,6 +42,8 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
+
+
 export default function DatasetSelection() {
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState(dataset_types[0])
@@ -51,9 +51,25 @@ export default function DatasetSelection() {
     const [email, setEmail] = useState(false)
 
     const [uploadInProgress, setUploadInProgress] = useState(false);
-    const [processingInProgress, setProcessingInProgress] = useState(false);
+    const [processingStatus, setProcessingStatus] = useState(false);
     const [uploadError, setUploadError] = useState(false);
     const [uploadSuccessful, setUploadSuccessful] = useState(false);
+
+    const processing = true;
+    const status = 'PROCESSING';
+
+    const getDatasetStatus = (dataset) => {
+        processing ? (
+            setOpen(true),
+            setProcessingStatus(true)
+        ) : dataset.upload === 'PROCESSING' ? {
+
+        } : dataset.upload === 'FAILED' ? {
+
+        } : dataset.upload === 'SUCCESS' ? {
+
+        } : (console.log("couldn't find processing status"))
+    }
 
     return (
         <>
@@ -78,12 +94,12 @@ export default function DatasetSelection() {
                             </div>
                         </a>
                     </li>
-                    {/* {datasets.map((dataset) => (
+                    {datasets ? (datasets.map((dataset) => (
                         <li key={dataset.name}>
-                            <a href={dataset.data_type === 'mbox' ? '/labeler' : '#'} className="block hover:bg-gray-50">
-                                <div className="px-4 py-4 sm:px-6">
+                            {/* <a href={`/labeler/${dataset.name}`} className="block hover:bg-gray-50"> */}
+                                <div onClick={() => {getDatasetStatus(dataset)}} className="px-4 py-4 sm:px-6 hover:bg-gray-50">
                                     <div className="flex items-center justify-between">
-                                        <p className="text-sm font-medium text-blue-600 truncate">{dataset.id}</p>
+                                        <p className="text-md font-medium text-blue-600 truncate">{dataset.name} - status: {dataset.uploads}</p>
                                     </div>
                                     <div className="mt-2 sm:flex sm:justify-between">
                                         <div className="sm:flex">
@@ -95,13 +111,29 @@ export default function DatasetSelection() {
                                         </div>
                                     </div>
                                 </div>
+                            {/* </a> */}
+                        </li>
+                    ))) : (
+                        <li>
+                            <a>
+                                <div className="px-4 py-4 sm:px-6">
+                                    <div className="flex items-center justify-between">
+                                        <p className="text-md font-medium text-blue-600 truncate"></p>
+                                    </div>
+                                    <div className="mt-2 sm:flex sm:justify-between">
+                                        <div className="sm:flex">
+                                            <p className="flex items-center text-sm text-gray-500">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </a>
                         </li>
-                    ))} */}
+                    )}
                 </ul>
             </div>
             <Transition.Root show={open} as={Fragment}>
-                <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={() => { setOpen(false); setEmail(false); setUploadInProgress(false); setProcessingInProgress(false); setUploadError(false); setUploadSuccessful(false); }}>
+                <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={() => { setOpen(false); setEmail(false); setUploadInProgress(false); setProcessingStatus(false); setUploadError(false); setUploadSuccessful(false); }}>
                     <div className="flex items-end justify-center pt-60 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
@@ -133,11 +165,7 @@ export default function DatasetSelection() {
                                     <UploadEmail setEmail={setEmail} setUploadInProgress={setUploadInProgress} />
                                 ) : uploadInProgress ? (
                                     <>
-                                        <UploadProgress setUploadInProgress={setUploadInProgress} setProcessingInProgress={setProcessingInProgress} />
-                                    </>
-                                ) : processingInProgress ? (
-                                    <>
-                                        <ProcessProgress setProcessingInProgress={setProcessingInProgress} setUploadError={setUploadError} setUploadSuccessful={setUploadSuccessful} />
+                                        <UploadProgress setUploadInProgress={setUploadInProgress} setUploadSuccess={setUploadSuccessful} />
                                     </>
                                 ) : uploadSuccessful ? (
                                     <>
@@ -148,20 +176,33 @@ export default function DatasetSelection() {
                                                 className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
                                                 onClick={() => setOpen(false)}
                                             >
-                                                Start Labelling
+                                                Ok
                                             </button>
                                         </div>
                                     </>
                                 ) : uploadError ? (
                                     <>
-                                        <UploadError />
+                                        <UploadSuccessful />
                                         <div className="mt-5 sm:mt-6">
                                             <button
                                                 type="button"
                                                 className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
-                                                onClick={() => { setUploadError(false), setUploadInProgress(true) }}
+                                                onClick={() => setOpen(false)}
                                             >
-                                                Upload Data
+                                                Ok
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : processingStatus ? (
+                                    <>
+                                        <ProcessStatus />
+                                        <div className="mt-5 sm:mt-6">
+                                            <button
+                                                type="button"
+                                                className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
+                                                onClick={() => { setProcessingStatus(false), setOpen(false) }}
+                                            >
+                                                Close
                                             </button>
                                         </div>
                                     </>
