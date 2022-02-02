@@ -17,6 +17,8 @@ const cookies = new Cookies();
 
 const user = cookies.get('user');
 
+const datasets = []
+
 try {
     axios.get(`${Domain}dataset`, {
         headers: {
@@ -28,7 +30,9 @@ try {
     console.log(err);
 }
 
-const datasets = cookies.get('datasets')
+datasets.push(cookies.get('datasets'))
+
+console.log(datasets, 'hello');
 
 const dataset_types = [
     { type: 'Email', format: '.mbox' },
@@ -75,11 +79,11 @@ export default function DatasetSelection() {
                         </a>
                     </li>
                     {/* {datasets.map((dataset) => (
-                        <li key={dataset.id}>
+                        <li key={dataset.name}>
                             <a href={dataset.data_type === 'mbox' ? '/labeler' : '#'} className="block hover:bg-gray-50">
                                 <div className="px-4 py-4 sm:px-6">
                                     <div className="flex items-center justify-between">
-                                        <p className="text-sm font-medium text-blue-600 truncate">{dataset.title}</p>
+                                        <p className="text-sm font-medium text-blue-600 truncate">{dataset.id}</p>
                                     </div>
                                     <div className="mt-2 sm:flex sm:justify-between">
                                         <div className="sm:flex">
