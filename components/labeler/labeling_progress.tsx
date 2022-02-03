@@ -1,15 +1,41 @@
 import React from 'react';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
+import { Domain, apiKey } from '../domain';
 
-const stats = [
-  { name: 'Labeling Progress', stat: '59121', of: '71920'},
-  { name: 'Model Accuracy', stat: '24.56%', of: '95%'},
-]
+const cookies = new Cookies();
+
+const user = cookies.get('user');
+
+const dataset_id = cookies.get('dataset_id');
+// actual code ^^^
+// const dataset_id = 'test';
+
+var stats = []
 
 function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ')
 }
 
-export default function LabelingProgress() {
+
+
+export default function LabelingProgress(user: any, dataset_id: any) {
+
+    const getDatasetStats = () => {
+        try {
+            axios.get(`${Domain}dataset/${dataset_id}/stats`, {
+                headers: {
+                    "Api-Key": apiKey,
+                    "Authorization": user.token
+                }
+            }).then(response => { console.log(response); cookies.set('datasetStats', response.data); });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    var datasetStats = cookies.get('datasetStats');
+
     return (
         // Section container
         <div className="h-80 md:h-96 px-2 md:px-10 lg:px-20 bg-gray-900">
@@ -30,7 +56,7 @@ export default function LabelingProgress() {
                 </dl>
             </div>
             {/* question text */}
-            <div className="flex flex-row justify-center p-4 md:p-10 text-md text-gray-400">Would you have liked to have received a notification about this email?</div>
+            <div className="flex flex-row justify-center p-4 md:p-10 text-md lg:text-2xl text-gray-400">Would you have liked to have received a notification about this email?</div>
         </div>
     )
 };

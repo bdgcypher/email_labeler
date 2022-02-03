@@ -48,27 +48,51 @@ export default function DatasetSelection() {
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState(dataset_types[0])
 
+
     const [email, setEmail] = useState(false)
 
     const [uploadInProgress, setUploadInProgress] = useState(false);
     const [processingStatus, setProcessingStatus] = useState(false);
     const [uploadError, setUploadError] = useState(false);
     const [uploadSuccessful, setUploadSuccessful] = useState(false);
+    
+    const [status, setStatus] = useState('PROCESSING')
+    const [clickedDatasetId, setClickedDatasetId] = useState('')
 
-    const processing = true;
-    const status = 'PROCESSING';
+    // Find the status of the clicked dataset and display modals for PROCESSING and FAILED. Reroute to labeler for SUCCESS
 
-    const getDatasetStatus = (dataset) => {
-        processing ? (
+    const getDatasetStatus = (dataset: any) => {
+        dataset.upload_info[0].processing_status === 'PROCESSING' ? (
+            setStatus('PROCESSING'),
             setOpen(true),
-            setProcessingStatus(true)
-        ) : dataset.upload === 'PROCESSING' ? {
+            setProcessingStatus(true),
+            cookies.set('dataset_id', dataset.id),
+            console.log('status', status, dataset.id)
+        ) : dataset.upload_info[0].processing_status === 'FAILED' ? (
+            setStatus('FAILED'),
+            setClickedDatasetId(dataset.id),
+            setOpen(true),
+            setProcessingStatus(true),
+            console.log('status', status)
+         ) : dataset.upload_info[0].processing_status === 'SUCCESS' ? (
+            cookies.set('dataset_id', dataset.id),
+            window.location.replace(`/labeler/${dataset.id}`)
+        ) : (console.log("couldn't find processing status", dataset.upload_info[0].processing_status))
+    }
 
-        } : dataset.upload === 'FAILED' ? {
+    const deleteDataset = (dataset_id: any) => {
+        try {
+            axios.delete(`${Domain}dataset/${dataset_id}`, {
+                headers: {
+                    "Api-Key": apiKey,
+                    "Authorization": user.token
+                }
+            }).then(response => { console.log(response); window.location.reload(); });
+        } catch (err) {
+            console.log(err);
+        }
 
-        } : dataset.upload === 'SUCCESS' ? {
 
-        } : (console.log("couldn't find processing status"))
     }
 
     return (
@@ -182,7 +206,7 @@ export default function DatasetSelection() {
                                     </>
                                 ) : uploadError ? (
                                     <>
-                                        <UploadSuccessful />
+                                        <UploadError />
                                         <div className="mt-5 sm:mt-6">
                                             <button
                                                 type="button"
@@ -195,12 +219,12 @@ export default function DatasetSelection() {
                                     </>
                                 ) : processingStatus ? (
                                     <>
-                                        <ProcessStatus />
+                                        <ProcessStatus status={status}/>
                                         <div className="mt-5 sm:mt-6">
                                             <button
                                                 type="button"
                                                 className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
-                                                onClick={() => { setProcessingStatus(false), setOpen(false) }}
+                                                onClick={() => { setProcessingStatus(false), setOpen(false), status === "FAILED" ? deleteDataset(clickedDatasetId) : null }}
                                             >
                                                 Close
                                             </button>
