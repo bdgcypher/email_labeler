@@ -8,8 +8,6 @@ const cookies = new Cookies();
 const user = cookies.get('user');
 
 const dataset_id = cookies.get('dataset_id');
-// actual code ^^^
-// const dataset_id = 'test';
 
 var stats = []
 
@@ -19,7 +17,7 @@ function classNames(...classes: any[]) {
 
 
 
-export default function LabelingProgress(user: any, dataset_id: any) {
+export default function LabelingProgress() {
 
     const getDatasetStats = () => {
         try {

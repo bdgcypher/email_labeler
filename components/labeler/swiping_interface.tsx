@@ -3,8 +3,8 @@ import { RiCloseFill } from 'react-icons/ri';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { CardSwiper } from './card_swiper_function';
 import * as rasterizeHTML from 'rasterizehtml';
-import axios from 'axios'
-import Cookies from 'universal-cookie'
+import axios from 'axios';
+import Cookies from 'universal-cookie';
 import { Domain, apiKey } from '../domain';
 
 const cookies = new Cookies();
@@ -34,11 +34,10 @@ export default function SwipingInterface() {
     }
 
     console.log(dataset_id)
-    console.log(user.token)
 
     const getDatasetExamples = () => {
         try {
-            let numOfExamples = '5'
+            let numOfExamples = 5
             axios.get(`${Domain}content/${dataset_id}/${numOfExamples}`, {
                 headers: {
                     "Api-Key": apiKey,

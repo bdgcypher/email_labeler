@@ -19,6 +19,7 @@ const user = cookies.get('user');
 
 var datasets = []
 
+// request the user's datasets
 try {
     axios.get(`${Domain}dataset`, {
         headers: {
@@ -78,8 +79,9 @@ export default function DatasetSelection() {
             cookies.set('dataset_id', dataset.id),
             window.location.replace(`/labeler/${dataset.id}`)
         ) : (console.log("couldn't find processing status", dataset.upload_info[0].processing_status))
-    }
+    }    
 
+    // Deleting datasets that weren't processed correctly
     const deleteDataset = (dataset_id: any) => {
         try {
             axios.delete(`${Domain}dataset/${dataset_id}`, {
@@ -123,7 +125,7 @@ export default function DatasetSelection() {
                             {/* <a href={`/labeler/${dataset.name}`} className="block hover:bg-gray-50"> */}
                                 <div onClick={() => {getDatasetStatus(dataset)}} className="px-4 py-4 sm:px-6 hover:bg-gray-50">
                                     <div className="flex items-center justify-between">
-                                        <p className="text-md font-medium text-blue-600 truncate">{dataset.name} - status: {dataset.uploads}</p>
+                                        <p className="text-md font-medium text-blue-600 truncate">{dataset.name}</p>
                                     </div>
                                     <div className="mt-2 sm:flex sm:justify-between">
                                         <div className="sm:flex">
