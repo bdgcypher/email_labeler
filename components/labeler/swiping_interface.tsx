@@ -113,8 +113,10 @@ export default function SwipingInterface() {
         }
     };
 
+    const renderHtml = (html, canvas) => {
+            rasterizeHTML.drawHTML(html, canvas);
+    }
 
-    // rasterizeHTML.drawHTML(html, canvas);
 
     return (
         <div className="bg-gray-100 p-10 md:p-20 lg:px-40 md:mx-auto rounded-md">
