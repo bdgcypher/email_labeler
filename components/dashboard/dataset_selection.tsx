@@ -17,10 +17,13 @@ const cookies = new Cookies();
 
 const user = cookies.get('user');
 
+cookies.set('userAuth', user)
+
 var datasets = []
 
 // request the user's datasets
 try {
+    console.log(user.token)
     axios.get(`${Domain}dataset`, {
         headers: {
             "Api-Key": apiKey,
@@ -56,34 +59,49 @@ export default function DatasetSelection() {
     const [processingStatus, setProcessingStatus] = useState(false);
     const [uploadError, setUploadError] = useState(false);
     const [uploadSuccessful, setUploadSuccessful] = useState(false);
-    
+
     const [status, setStatus] = useState('PROCESSING')
     const [clickedDatasetId, setClickedDatasetId] = useState('')
 
-    // Find the status of the clicked dataset and display modals for PROCESSING and FAILED. Reroute to labeler for SUCCESS
+    // Find the status of each upload for the clicked dataset and display modals for PROCESSING and FAILED. Reroute to labeler for SUCCESS
 
     const getDatasetStatus = (dataset: any) => {
-        dataset.upload_info[0].processing_status === 'PROCESSING' ? (
+        let datasetUploads = []
+        let datasetStatus = '';
+        let uploadProcessing = 'PROCESSING';
+        let uploadFailure = 'FAILED';
+        let uploadSuccess = 'SUCCESS';
+        for (const upload of dataset.upload_info) {
+            console.log(upload.processing_status)
+            uploadProcessing === upload.processing_status ? datasetUploads.push('PROCESSING') : uploadFailure === upload.processing_status ? datasetUploads.push('FAILED') : uploadSuccess === upload.processing_status ? datasetUploads.push('SUCCESS') : null;
+        }
+        console.log(datasetUploads)
+        for (const status of datasetUploads) {
+            console.log(status)
+            uploadProcessing === status ? datasetStatus = 'PROCESSING' : uploadFailure === status ? datasetStatus = 'FAILED' : datasetStatus = 'SUCCESS';
+        }
+        datasetStatus === 'PROCESSING' ? (
             setStatus('PROCESSING'),
             setOpen(true),
             setProcessingStatus(true),
             cookies.set('dataset_id', dataset.id),
             console.log('status', status, dataset.id)
-        ) : dataset.upload_info[0].processing_status === 'FAILED' ? (
+        ) : datasetStatus === 'FAILED' ? (
             setStatus('FAILED'),
             setClickedDatasetId(dataset.id),
             setOpen(true),
             setProcessingStatus(true),
             console.log('status', status)
-         ) : dataset.upload_info[0].processing_status === 'SUCCESS' ? (
+        ) : datasetStatus === 'SUCCESS' ? (
             cookies.set('dataset_id', dataset.id),
             window.location.replace(`/labeler/${dataset.id}`)
-        ) : (console.log("couldn't find processing status", dataset.upload_info[0].processing_status))
-    }    
+        ) : (console.log("couldn't find processing status", dataset.upload_info))
+    }
 
     // Deleting datasets that weren't processed correctly
     const deleteDataset = (dataset_id: any) => {
         try {
+            console.log(dataset_id)
             axios.delete(`${Domain}dataset/${dataset_id}`, {
                 headers: {
                     "Api-Key": apiKey,
@@ -121,22 +139,22 @@ export default function DatasetSelection() {
                         </a>
                     </li>
                     {datasets ? (datasets.map((dataset) => (
-                        <li key={dataset.name}>
+                        <li key={dataset.id}>
                             {/* <a href={`/labeler/${dataset.name}`} className="block hover:bg-gray-50"> */}
-                                <div onClick={() => {getDatasetStatus(dataset)}} className="px-4 py-4 sm:px-6 hover:bg-gray-50">
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-md font-medium text-blue-600 truncate">{dataset.name}</p>
-                                    </div>
-                                    <div className="mt-2 sm:flex sm:justify-between">
-                                        <div className="sm:flex">
-                                            <p className="flex items-center text-sm text-gray-500">
-                                                {dataset.data_type === 'mbox' && <HiOutlineMail className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />}
-                                                {dataset.data_type === 'Image' && <BsImage className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />}
-                                                {dataset.data_type}
-                                            </p>
-                                        </div>
+                            <div onClick={() => { getDatasetStatus(dataset) }} className="px-4 py-4 sm:px-6 hover:bg-gray-50">
+                                <div className="flex items-center justify-between">
+                                    <p className="text-md font-medium text-blue-600 truncate">{dataset.name}</p>
+                                </div>
+                                <div className="mt-2 sm:flex sm:justify-between">
+                                    <div className="sm:flex">
+                                        <p className="flex items-center text-sm text-gray-500">
+                                            {dataset.data_type === 'mbox' && <HiOutlineMail className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />}
+                                            {dataset.data_type === 'Image' && <BsImage className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />}
+                                            {dataset.data_type}
+                                        </p>
                                     </div>
                                 </div>
+                            </div>
                             {/* </a> */}
                         </li>
                     ))) : (
@@ -221,7 +239,7 @@ export default function DatasetSelection() {
                                     </>
                                 ) : processingStatus ? (
                                     <>
-                                        <ProcessStatus status={status}/>
+                                        <ProcessStatus status={status} />
                                         <div className="mt-5 sm:mt-6">
                                             <button
                                                 type="button"
