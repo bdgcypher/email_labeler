@@ -24,6 +24,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function Sidebar() {
+
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const handleLogout = () => {
         try {
@@ -32,7 +33,7 @@ export default function Sidebar() {
                     "Api-Key": apiKey,
                     "Authorization": user.token
                 }
-            }).then(response => { console.log(response);});
+            }).then(response => { console.log(response); });
         } catch (err) {
             console.log(err);
         }
@@ -79,7 +80,7 @@ export default function Sidebar() {
                                         <button
                                             type="button"
                                             className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                                            onClick={() => {setSidebarOpen(false), handleLogout() }}
+                                            onClick={() => { setSidebarOpen(false) }}
                                         >
                                             <span className="sr-only">Close sidebar</span>
                                             <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
@@ -117,14 +118,18 @@ export default function Sidebar() {
                                     </nav>
                                 </div>
                                 <div className="flex-shrink-0 flex bg-gray-700 p-4">
-                                    <a href="/" className="flex-shrink-0 group block">
+                                    <button onClick={handleLogout} className="flex-shrink-0 group block">
                                         <div className="flex items-center">
                                             <div className="ml-3">
-                                                <p className="text-base font-medium text-white">Tom Cook</p>
+                                                {user ? (
+                                                    <>
+                                                        <p className="text-base font-medium text-white">{user.email}</p>
+                                                    </>
+                                                ) : null}
                                                 <p className="text-sm font-medium text-gray-400 group-hover:text-gray-300">Logout</p>
                                             </div>
                                         </div>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </Transition.Child>

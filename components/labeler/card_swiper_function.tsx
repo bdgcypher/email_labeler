@@ -4,10 +4,10 @@ import gsap from "gsap";
 type TProps = {
     contents: any;
     onSwipe?: Function;
+    uuid?: string;
     className?: string;
     detectingSize?: number;
     throwLimit?: number;
-    value?: string;
 };
 
 export const CardSwiper = (props: TProps) => {
@@ -80,6 +80,7 @@ export const CardSwiper = (props: TProps) => {
             (Math.abs(mx - x.current) * angleMax * (1 - Math.abs(my - mid) / mid)) /
             target.current?.offsetWidth;
         const d = await selectDirection(mx, my);
+        const id = props.uuid;
 
         if (d === "right" || d === "left") {
             const tl = gsap.timeline();
@@ -110,7 +111,7 @@ export const CardSwiper = (props: TProps) => {
         x.current = 0;
         y.current = 0;
 
-        await props.onSwipe?.(d);
+        await props.onSwipe?.(d, id);
     };
 
     const handleTouchStart = (e: any) => {

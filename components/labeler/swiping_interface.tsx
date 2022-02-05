@@ -6,7 +6,7 @@ import * as rasterizeHTML from 'rasterizehtml';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { Domain, apiKey } from '../domain';
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const cookies = new Cookies();
 
@@ -34,37 +34,6 @@ export default function SwipingInterface() {
 
     console.log(dataset_id)
 
-    function getCookie(name) {
-        var dc = document.cookie;
-        var prefix = name + "=";
-        var begin = dc.indexOf("; " + prefix);
-        if (begin == -1) {
-            begin = dc.indexOf(prefix);
-            if (begin != 0) return null;
-        }
-        else {
-            begin += 2;
-            var end = document.cookie.indexOf(";", begin);
-            if (end == -1) {
-                end = dc.length;
-            }
-        }
-        // because unescape has been deprecated, replaced with decodeURI
-        //return unescape(dc.substring(begin + prefix.length, end));
-        return decodeURI(dc.substring(begin + prefix.length, end));
-    }
-
-    function doSomething() {
-        var myCookie = getCookie("examples");
-
-        if (myCookie == null) {
-            console.log("Cookie does not exist")
-        }
-        else {
-            console.log(myCookie)
-        }
-    }
-
     const getDatasetExamples = () => {
         console.log(user.token)
         try {
@@ -76,8 +45,7 @@ export default function SwipingInterface() {
                 }
             }).then(response => { 
                 console.log(response.data); 
-                setDatasetExamples(response.data); 
-                setUuid(response.data[0].id);
+                setDatasetExamples(response.data);
                 console.log('examples: ', datasetExamples);
              });
         } catch (err) {
@@ -89,24 +57,11 @@ export default function SwipingInterface() {
         getDatasetExamples()
     }, [])
 
-    var batchLabelCounter = 0
+    var batchLabelCounter = 0;
 
-    const [uuid, setUuid] = useState('')
-
-    // const handleSwipe = (d: any) => {
-    //     //fill this with callback
-    //     if (d === "right") {
-    //         console.log(uuid)
-    //         console.log("yes I wanted a notification")
-    //     } else if (d === "left") {
-    //         console.log(uuid)
-    //         console.log("no I didn't want a notification")
-    //     }
-    // };
-
-    const handleSwipe = (d: any) => {
-        setUuid(this.value)
+    const handleSwipe = (d: any, uuid: any) => {
         console.log(uuid)
+        console.log(batchLabelCounter)
     
         if (d === "right") {
 
@@ -126,6 +81,8 @@ export default function SwipingInterface() {
                 axios.post(`${Domain}content/${dataset_id}`, 
                     JSON.stringify(body), config
                 ).then(response => { console.log(response); batchLabelCounter === 4 ? getDatasetExamples() : batchLabelCounter++ });
+                
+            console.log(datasetExamples)
             } catch (err) {
                 console.log(err);
             }
@@ -148,6 +105,7 @@ export default function SwipingInterface() {
                 axios.post(`${Domain}content/${dataset_id}`, 
                     JSON.stringify(body), config
                 ).then(response => { console.log(response); batchLabelCounter === 4 ? getDatasetExamples() : batchLabelCounter++ });
+                console.log(datasetExamples)
             } catch (err) {
                 console.log(err);
             }
@@ -155,24 +113,18 @@ export default function SwipingInterface() {
         }
     };
 
-    const sendingLabels = (uuid: SetStateAction<string>) => {
-        setUuid(uuid);
-        console.log(uuid);
-        handleSwipe;
-    }
 
     // rasterizeHTML.drawHTML(html, canvas);
 
     return (
         <div className="bg-gray-100 p-10 md:p-20 lg:px-40 md:mx-auto rounded-md">
             {
-                datasetExamples ? datasetExamples.map(example => (
-                    <>
+                datasetExamples.map(example => (
+                    <div key={example.id}>
                         <CardSwiper
-                            // onSwipe={handleSwipe}
                             onSwipe={handleSwipe}
+                            uuid={example.id}
                             detectingSize={100}
-                            value={example.id}
                             className=" absolute top-1/3 left-10 right-10 h-1/2 m-auto bg-white rounded-md p-8 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white opacity-95"
                             contents={
                                 //Email content will go here vvv
@@ -193,9 +145,9 @@ export default function SwipingInterface() {
                                 </>
                             }
                         />
-                    </>
+                    </div>
                 ))
-                    : null}
+                    }
             <div className="absolute bottom-1/3 left-0 h-12 lg:h-20 w-8 lg:w-20 pt-4 lg:pt-6 pl-2 lg:pl-6 bg-red-200 rounded-r-full shadow-xl">
                 <RiCloseFill className="text-red-700 lg:text-3xl" />
             </div>

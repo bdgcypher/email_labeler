@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { HiOutlineMail } from 'react-icons/hi'
 import { BsImage } from 'react-icons/bs'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
@@ -17,24 +17,8 @@ const cookies = new Cookies();
 
 const user = cookies.get('user');
 
-cookies.set('userAuth', user)
+cookies.set('userAuth', user);
 
-var datasets = []
-
-// request the user's datasets
-try {
-    console.log(user.token)
-    axios.get(`${Domain}dataset`, {
-        headers: {
-            "Api-Key": apiKey,
-            "Authorization": user.token
-        }
-    }).then(response => { console.log(response); cookies.set('datasets', response.data); });
-} catch (err) {
-    console.log(err);
-}
-
-datasets = cookies.get('datasets')
 
 const dataset_types = [
     { type: 'Email', format: '.mbox' },
@@ -49,6 +33,29 @@ function classNames(...classes: string[]) {
 
 
 export default function DatasetSelection() {
+
+    const [datasets, setDatasets] = useState([]);
+
+    // request the user's datasets
+    const getDatasets = () => {
+        try {
+            console.log(user.token)
+            axios.get(`${Domain}dataset`, {
+                headers: {
+                    "Api-Key": apiKey,
+                    "Authorization": user.token
+                }
+            }).then(response => { console.log(response); setDatasets(response.data); });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        getDatasets()
+    }, [])
+
+
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState(dataset_types[0])
 
@@ -93,6 +100,7 @@ export default function DatasetSelection() {
             setProcessingStatus(true),
             console.log('status', status)
         ) : datasetStatus === 'SUCCESS' ? (
+            cookies.set('dataset', dataset),
             cookies.set('dataset_id', dataset.id),
             window.location.replace(`/labeler/${dataset.id}`)
         ) : (console.log("couldn't find processing status", dataset.upload_info))
