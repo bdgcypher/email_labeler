@@ -105,6 +105,8 @@ export default function SwipingInterface() {
     // };
 
     const handleSwipe = (d: any) => {
+        setUuid(this.value)
+        console.log(uuid)
     
         if (d === "right") {
 
@@ -168,8 +170,9 @@ export default function SwipingInterface() {
                     <>
                         <CardSwiper
                             // onSwipe={handleSwipe}
-                            onSwipe={()=>{sendingLabels(example.id)}}
+                            onSwipe={handleSwipe}
                             detectingSize={100}
+                            value={example.id}
                             className=" absolute top-1/3 left-10 right-10 h-1/2 m-auto bg-white rounded-md p-8 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white opacity-95"
                             contents={
                                 //Email content will go here vvv

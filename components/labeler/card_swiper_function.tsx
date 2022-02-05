@@ -7,6 +7,7 @@ type TProps = {
     className?: string;
     detectingSize?: number;
     throwLimit?: number;
+    value?: string;
 };
 
 export const CardSwiper = (props: TProps) => {
