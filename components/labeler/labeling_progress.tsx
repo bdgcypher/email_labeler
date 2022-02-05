@@ -36,6 +36,13 @@ export default function LabelingProgress() {
         getDatasetStats()
     }, [])
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+          getDatasetStats();
+        }, 5000);
+        return () => clearInterval(interval);
+      }, []);
+
     return (
         // Section container
         <div className="h-80 md:h-96 px-2 md:px-10 lg:px-20 bg-gray-900">
