@@ -113,9 +113,9 @@ export default function SwipingInterface() {
         }
     };
 
-    const renderHtml = (html, canvas) => {
-            rasterizeHTML.drawHTML(html, canvas);
-    }
+    // const renderHtml = (html, canvas) => {
+    //         rasterizeHTML.drawHTML(html, canvas);
+    // }
 
 
     return (

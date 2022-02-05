@@ -19,7 +19,6 @@ const user = cookies.get('user');
 
 cookies.set('userAuth', user);
 
-
 const dataset_types = [
     { type: 'Email', format: '.mbox' },
     // { type: 'Image', format: '.png or .jpg' },

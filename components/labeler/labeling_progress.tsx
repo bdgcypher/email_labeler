@@ -39,7 +39,7 @@ export default function LabelingProgress() {
     useEffect(() => {
         const interval = setInterval(() => {
           getDatasetStats();
-        }, 5000);
+        }, 10000);
         return () => clearInterval(interval);
       }, []);
 
