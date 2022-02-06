@@ -42,3 +42,11 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background:  #2c2f33;
 }
+
+CardSwiper {
+  opacity: .999;
+}
+
+div.test img, div.test svg, div.test div {
+  line-height: 1;
+}

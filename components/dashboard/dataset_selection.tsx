@@ -79,13 +79,15 @@ export default function DatasetSelection() {
         let uploadSuccess = 'SUCCESS';
         for (const upload of dataset.upload_info) {
             console.log(upload.processing_status)
-            uploadProcessing === upload.processing_status ? datasetUploads.push('PROCESSING') : uploadFailure === upload.processing_status ? datasetUploads.push('FAILED') : uploadSuccess === upload.processing_status ? datasetUploads.push('SUCCESS') : null;
+            uploadProcessing === upload.processing_status ? datasetUploads.push('PROCESSING')
+                : uploadFailure === upload.processing_status ? datasetUploads.push('FAILED')
+                    : uploadSuccess === upload.processing_status ? datasetUploads.push('SUCCESS')
+                        : null;
         }
         console.log(datasetUploads)
-        for (const status of datasetUploads) {
-            console.log(status)
-            uploadProcessing === status ? datasetStatus = 'PROCESSING' : uploadFailure === status ? datasetStatus = 'FAILED' : datasetStatus = 'SUCCESS';
-        }
+        datasetUploads.includes(uploadProcessing) && !datasetUploads.includes(uploadFailure) ? datasetStatus = 'PROCESSING'
+        : datasetUploads.includes(uploadFailure) ? datasetStatus = 'FAILED' 
+        : datasetStatus = 'SUCCESS';
         datasetStatus === 'PROCESSING' ? (
             setStatus('PROCESSING'),
             setOpen(true),

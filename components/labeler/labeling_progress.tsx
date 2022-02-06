@@ -59,7 +59,7 @@ export default function LabelingProgress() {
                         </dd>
                     </div>
                     <div key={"1"} className="px-4 py-5 sm:p-6">
-                        <dt className="text-xs md:text-base font-normal text-gray-900">Model Accuracy</dt>
+                        <dt className="text-xs md:text-base font-normal text-gray-900">Dataset Accuracy</dt>
                         <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
                             <div className="flex items-baseline text-md md:text-2xl font-semibold text-blue-600">
                                 {stats.dataset_accuracy}
@@ -70,7 +70,7 @@ export default function LabelingProgress() {
                 </dl>
             </div>
             {/* question text */}
-            <div className="flex flex-row justify-center p-4 md:p-10 text-md lg:text-2xl text-gray-400">Would you have liked to have received a notification about this email?</div>
+            <div className="flex flex-row justify-center p-4 md:p-10 text-md lg:text-2xl text-gray-400">Would you have liked to receive a notification about this email?</div>
         </div>
     )
 };
