@@ -25,7 +25,7 @@ export default function Register() {
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    const { fullName, email, password, joinCode } = form;
+    const { fullName, email, password, confirmPassword, joinCode } = form;
 
     // will change later vvv
     const URL = `${Domain}user`
@@ -48,20 +48,27 @@ export default function Register() {
       'token': '',
     }
 
-    await axios.post(URL, JSON.stringify(data), config)
-      .then(response => {
-        userInfo.email = email;
-        userInfo.token = response.data.access_token;
+    {
+      password === confirmPassword ? (
+        await axios.post(URL, JSON.stringify(data), config)
+          .then(response => {
+            userInfo.email = email;
+            userInfo.token = response.data.access_token;
 
-        cookies.set('user', userInfo);
+            cookies.set('user', userInfo);
 
-        let userToken = userInfo.token;
-        console.log(response.status, userToken);
-        {
-          userToken == response.data.access_token ? window.location.replace('/dashboard')
-            : alert(response.status);
-        }
-      });
+            let userToken = userInfo.token;
+            console.log(response.status, userToken);
+            {
+              userToken == response.data.access_token ? window.location.replace('/dashboard')
+                : alert(response.status);
+            }
+          })
+      ) : (
+        alert("Passwords must match")
+      )
+    }
+
 
   }
 

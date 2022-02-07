@@ -7,7 +7,7 @@ import { Domain, apiKey } from './domain'
 
 const cookies = new Cookies();
 
-export default function Login( userToken: any) {
+export default function Login(userToken: any) {
 
   const initialState = {
     email: '',
@@ -43,11 +43,20 @@ export default function Login( userToken: any) {
 
     await axios.post(URL, JSON.stringify(data), config)
       .then(response => {
-        userInfo.email = email;
-        userInfo.token = response.data.access_token;
+        {
+          response.status === 200 ? (
+            userInfo.email = email,
+            userInfo.token = response.data.access_token,
 
-        cookies.set('user', userInfo);
-
+            cookies.set('user', userInfo)
+          ) : response.status === 401 ? (
+            console.log("Incorrect Email or Password")
+          ) : response.status === 404 ? (
+            alert("Incorrect Email")
+          ) : response.status === 422 ? (
+            alert("Incorrect Password")
+          ) : (alert("Sorry, there was an error on our end... Contact us"))
+        }
         let userToken = userInfo.token;
         console.log(response.status, userToken);
         {

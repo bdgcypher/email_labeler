@@ -4,6 +4,8 @@ import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Domain, apiKey } from '../domain';
 import Cookies from 'universal-cookie';
+import UploadSuccessful from './upload_successful';
+import UploadError from './upload_error';
 
 const cookies = new Cookies();
 const user = cookies.get('user')
@@ -22,9 +24,11 @@ class FileUploader extends Component {
     uploadProgress: 0,
     uploadProgressPercentage: 0,
     outOf: 0,
+    uploadSuccessful: false,
+    uploadError: false,
   };
 
-  DATASET_NAME = this.state.datasetName;
+
 
   // On file select (from the pop up)
   onFileChange = event => {
@@ -115,8 +119,8 @@ class FileUploader extends Component {
 
   send_chunk(auth_token, api_key, session_uri, starting_byte, ending_byte, filesize, chunk_data) {
     return new Promise((resolve, reject) => {
-      let url = Domain + '/dataset/upload_chunk?' + 'session_uri=' + session_uri;
-      url = url + "&starting_byte=" + starting_byte + "&ending_byte=" + ending_byte;
+      let url = Domain + '/dataset/upload_chunk?';
+      url = url + "starting_byte=" + starting_byte + "&ending_byte=" + ending_byte;
       url = url + "&total_size=" + filesize;
 
       fetch(url, {
@@ -149,7 +153,7 @@ class FileUploader extends Component {
       //I am just going to hard code this but you should check
       //make sure it is .mbox
       'file_type': "mbox",
-      'dataset_name': this.DATASET_NAME,
+      'dataset_name': this.state.datasetName,
       'file_name': file.name
     }
     var response_body = await this.start_upload_session(api_key, auth_token, data);
@@ -214,7 +218,11 @@ class FileUploader extends Component {
 
           var endTime = performance.now()
           console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
+          this.setState({ uploadStarted: false, uploadSuccessful: true });
+
           return false;
+        } else {
+          this.setState({ uploadStarted: false, uploadSuccessful: true });
         }
       }
 
@@ -265,7 +273,6 @@ class FileUploader extends Component {
 
   render() {
 
-
     return (
       <>
         {this.state.uploadStarted ? (
@@ -301,6 +308,17 @@ class FileUploader extends Component {
             </div>
           </>
 
+        ) : this.state.uploadSuccessful ? (
+          <>
+            <UploadSuccessful />
+          </>
+        ) : this.state.uploadError ? (
+          <>
+            <UploadError />
+            <button onClick={() => {this.setState({ uploadError: false })}} className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm mt-4 px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
+              Continue
+            </button>
+          </>
         ) : (
           <>
             <div className="mt-3 text-center sm:mt-5">

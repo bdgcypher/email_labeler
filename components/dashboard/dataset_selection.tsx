@@ -12,6 +12,7 @@ import ProcessStatus from './process_status';
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { Domain, apiKey } from '../domain'
+import { FaTimesCircle } from 'react-icons/fa';
 
 const cookies = new Cookies();
 
@@ -86,8 +87,8 @@ export default function DatasetSelection() {
         }
         console.log(datasetUploads)
         datasetUploads.includes(uploadProcessing) && !datasetUploads.includes(uploadFailure) ? datasetStatus = 'PROCESSING'
-        : datasetUploads.includes(uploadFailure) ? datasetStatus = 'FAILED' 
-        : datasetStatus = 'SUCCESS';
+            : datasetUploads.includes(uploadFailure) ? datasetStatus = 'FAILED'
+                : datasetStatus = 'SUCCESS';
         datasetStatus === 'PROCESSING' ? (
             setStatus('PROCESSING'),
             setOpen(true),
@@ -186,7 +187,7 @@ export default function DatasetSelection() {
                 </ul>
             </div>
             <Transition.Root show={open} as={Fragment}>
-                <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={() => { setOpen(false); setEmail(false); setUploadInProgress(false); setProcessingStatus(false); setUploadError(false); setUploadSuccessful(false); }}>
+                <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={() => { setOpen(false); setEmail(false); setUploadInProgress(false); setProcessingStatus(false); setUploadError(false); setUploadSuccessful(false); getDatasets(); }}>
                     <div className="flex items-end justify-center pt-60 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
@@ -214,38 +215,11 @@ export default function DatasetSelection() {
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-10 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                                <button onClick={() => { setOpen(false); }} className="float-right">
+                                    <FaTimesCircle className="text-xl text-red-700" />
+                                </button>
                                 {email ? (
-                                    <UploadEmail setEmail={setEmail} setUploadInProgress={setUploadInProgress} />
-                                ) : uploadInProgress ? (
-                                    <>
-                                        <UploadProgress setUploadInProgress={setUploadInProgress} setUploadSuccess={setUploadSuccessful} />
-                                    </>
-                                ) : uploadSuccessful ? (
-                                    <>
-                                        <UploadSuccessful />
-                                        <div className="mt-5 sm:mt-6">
-                                            <button
-                                                type="button"
-                                                className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
-                                                onClick={() => { setOpen(false); setEmail(false); setUploadInProgress(false); setProcessingStatus(false); setUploadError(false); setUploadSuccessful(false); }}
-                                            >
-                                                Ok
-                                            </button>
-                                        </div>
-                                    </>
-                                ) : uploadError ? (
-                                    <>
-                                        <UploadError />
-                                        <div className="mt-5 sm:mt-6">
-                                            <button
-                                                type="button"
-                                                className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
-                                                onClick={() => setOpen(false)}
-                                            >
-                                                Ok
-                                            </button>
-                                        </div>
-                                    </>
+                                    <UploadEmail setEmail={setEmail} setUploadInProgress={setUploadInProgress} setOpen={setOpen} />
                                 ) : processingStatus ? (
                                     <>
                                         <ProcessStatus status={status} />
