@@ -122,7 +122,7 @@ export default function SwipingInterface() {
                             onSwipe={handleSwipe}
                             uuid={example.id}
                             detectingSize={100}
-                            className=" absolute top-1/3 left-10 right-10 h-1/2 lg:h-3/4 m-auto bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white "
+                            className=" absolute top-80 md:top-1/3 left-10 right-10 h-1/2 lg:h-2/3 m-auto lg:w-5/6 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white "
                             contents={
                                 //Email content will go here vvv
                                 <>

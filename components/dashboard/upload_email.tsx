@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog } from '@headlessui/react'
+import FileUploader from './upload_file'
 
 
 
@@ -30,6 +31,8 @@ export default function UploadEmail({ setEmail, setUploadInProgress }) {
     for (let i = 0; i < stepCounter; i++) {
         setCurrentStep()
     };
+
+    
 
     return (
 
@@ -97,25 +100,14 @@ export default function UploadEmail({ setEmail, setUploadInProgress }) {
                         </div>
                     </div>
                 ) : steps[3].status === 'current' ? (
-                    <div className="mt-3 text-center sm:mt-5">
-                        <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                            Upload Email Data
-                        </Dialog.Title>
-                        <div className="mt-2 px-4">
-                            <p className="text-sm text-gray-500">
-                                Once the email data has finished downloading, upload the file by selecting the file and clicking the button below.
-                            </p>
-                        </div>
-                    </div>
+                    null
                 ) : null}
             </div>
             <div className="mt-5 sm:mt-6">
                 {steps[3].status === 'current' ? (
-                    <form action="#" className="text-center pb-4" id="upload_form">
-                        <input type="file" id="dataset_file" name="dataset_file" multiple required />
-                    </form>
-                ) : null}
-                <button
+                    <FileUploader />
+                ) : (
+                    <button
                     type={steps[3].status === 'current' ? 'submit' : 'button'}
                     form={steps[3].status === 'current' ? 'upload_form' : null}
                     className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
@@ -123,6 +115,7 @@ export default function UploadEmail({ setEmail, setUploadInProgress }) {
                 >
                     {steps[3].status === 'current' ? 'Upload Data' : 'Next Step'}
                 </button>
+                )}
             </div>
         </>
     )

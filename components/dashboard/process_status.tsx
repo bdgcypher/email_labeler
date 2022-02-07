@@ -1,12 +1,9 @@
 import * as React from 'react'
 import { Dialog } from '@headlessui/react'
-import axios from 'axios';
-import { Domain, apiKey } from '../domain';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 const user = cookies.get('user');
-
 
 
 export default function ProcessStatus(status: any) {
