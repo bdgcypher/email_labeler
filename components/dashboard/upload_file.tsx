@@ -139,6 +139,7 @@ class FileUploader extends Component {
     var fileType = file.type;
 
     console.log('starting upload')
+    console.log(user.token)
     this.setState({ uploadStarted: true })
 
     //Start the upload session
