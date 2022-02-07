@@ -6,7 +6,7 @@ import { Domain, apiKey } from '../domain';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
-const user = cookies.get('userAuth')
+const user = cookies.get('user')
 
 const MAX_BYTES_PER_CHUNK = 10485760;
 
