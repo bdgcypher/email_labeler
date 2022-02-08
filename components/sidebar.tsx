@@ -15,7 +15,7 @@ const cookies = new Cookies();
 const user = cookies.get('user');
 
 const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
+    { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
     // { name: 'Upload', href: '#', icon: AiOutlineCloudUpload, current: false },
 ]
 
@@ -28,17 +28,44 @@ export default function Sidebar() {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const handleLogout = () => {
         try {
-            axios.get(`${Domain}user/logout/${user.email}`, {
+            console.log(user.token)
+            console.log(apiKey)
+            let config = {
                 headers: {
                     "Api-Key": apiKey,
                     "Authorization": user.token
                 }
-            }).then(response => { console.log(response); });
+            }
+            let body = {
+                "email": user.email
+            }
+            axios.post(`${Domain}user/logout/${user.email}`, JSON.stringify(body),
+                config
+            ).then(response => { console.log(response); window.location.replace('/login')}).catch(function (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                    {
+                        error.response.status === 400 ? (console.log('missing something from request')) : error.response.status === 401 ? (console.log('invalid auth token')) : (console.log(error.response.message))
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log(error.message);
+                }
+                console.log(error.config);
+            });
         } catch (err) {
             console.log(err);
         }
 
-        window.location.replace('/')
     }
 
     return (

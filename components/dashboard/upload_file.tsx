@@ -221,8 +221,6 @@ class FileUploader extends Component {
           this.setState({ uploadStarted: false, uploadSuccessful: true });
 
           return false;
-        } else {
-          this.setState({ uploadStarted: false, uploadSuccessful: true });
         }
       }
 
@@ -234,6 +232,8 @@ class FileUploader extends Component {
     // print the total time it took to upload the file
     var endTime = performance.now()
     console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
+    this.setState({ uploadStarted: false, uploadSuccessful: true });
+
 
     return true;
   };
@@ -315,7 +315,7 @@ class FileUploader extends Component {
         ) : this.state.uploadError ? (
           <>
             <UploadError />
-            <button onClick={() => {this.setState({ uploadError: false })}} className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm mt-4 px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
+            <button onClick={() => { this.setState({ uploadError: false }) }} className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm mt-4 px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
               Continue
             </button>
           </>

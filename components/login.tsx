@@ -51,7 +51,7 @@ export default function Login(userToken: any) {
         let userToken = userInfo.token;
         console.log(response.status, userToken);
         {
-          userToken === response.data.access_token ? window.location.replace('/dashboard')
+          userToken === response.data.access_token ? window.location.replace('/')
             : alert(response.status);
         }
       }).catch(function (error) {
