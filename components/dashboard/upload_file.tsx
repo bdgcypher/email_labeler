@@ -218,7 +218,7 @@ class FileUploader extends Component {
 
           var endTime = performance.now()
           console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
-          this.setState({ uploadStarted: false, uploadSuccessful: true });
+          this.setState({ uploadStarted: false, uploadError: true });
 
           return false;
         }
