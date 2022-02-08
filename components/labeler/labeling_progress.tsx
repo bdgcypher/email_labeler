@@ -7,7 +7,7 @@ const cookies = new Cookies();
 
 const user = cookies.get('userAuth');
 
-const dataset_id = cookies.get('dataset_id');
+const dataset_id = cookies.get('datasetId');
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(' ')
@@ -26,7 +26,7 @@ export default function LabelingProgress() {
                     "Api-Key": apiKey,
                     "Authorization": user.token
                 }
-            }).then(response => { console.log(response); setStats(response.data); });
+            }).then(response => { console.log(response); setStats(response.data); console.log((parseFloat(response.data.dataset_accuracy) * 100).toFixed(2), "% accurate"); });
         } catch (err) {
             console.log(err);
         }
@@ -39,9 +39,10 @@ export default function LabelingProgress() {
     useEffect(() => {
         const interval = setInterval(() => {
           getDatasetStats();
-        }, 10000);
+        }, 1000);
         return () => clearInterval(interval);
       }, []);
+
 
     return (
         // Section container
@@ -62,7 +63,7 @@ export default function LabelingProgress() {
                         <dt className="text-xs md:text-base font-normal text-gray-900">Dataset Accuracy</dt>
                         <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
                             <div className="flex items-baseline text-md md:text-2xl font-semibold text-blue-600">
-                                {stats.dataset_accuracy}
+                                {(parseFloat(stats.dataset_accuracy) * 100).toFixed(2)}
                                 <span className="ml-2 text-xs md:text-sm font-medium text-gray-500">of 95%</span>
                             </div>
                         </dd>

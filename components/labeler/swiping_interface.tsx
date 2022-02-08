@@ -11,7 +11,7 @@ const cookies = new Cookies();
 
 const user = cookies.get('userAuth');
 
-const dataset_id = cookies.get('dataset_id');
+const dataset_id = cookies.get('datasetId');
 
 
 export default function SwipingInterface() {

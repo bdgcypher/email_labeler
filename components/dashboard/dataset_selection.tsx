@@ -100,6 +100,7 @@ export default function DatasetSelection() {
         let uploadProcessing = 'PROCESSING';
         let uploadFailure = 'FAILED';
         let uploadSuccess = 'SUCCESS';
+        console.log(dataset.id)
         for (const upload of dataset.upload_info) {
             console.log(upload.processing_status)
             uploadProcessing === upload.processing_status ? datasetUploads.push('PROCESSING')
@@ -125,7 +126,7 @@ export default function DatasetSelection() {
             console.log('status', status)
         ) : datasetStatus === 'SUCCESS' ? (
             cookies.set('dataset', dataset),
-            cookies.set('dataset_id', dataset.id),
+            cookies.set('datasetId', dataset.id),
             window.location.replace(`/labeler/${dataset.id}`)
         ) : (console.log("couldn't find processing status", dataset.upload_info))
     }
