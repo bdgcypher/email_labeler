@@ -102,7 +102,7 @@ export default function SwipingInterface() {
             try {
                 axios.post(`${Domain}content/${dataset_id}`,
                     JSON.stringify(body), config
-                ).then(response => { console.log(response); batchLabelCounter === 3 ? getDatasetExamples() : batchLabelCounter++ });
+                ).then(response => { console.log(response); batchLabelCounter === 4 ? getDatasetExamples() : batchLabelCounter++ });
 
                 console.log(datasetExamples)
             } catch (err) {
@@ -126,7 +126,7 @@ export default function SwipingInterface() {
             try {
                 axios.post(`${Domain}content/${dataset_id}`,
                     JSON.stringify(body), config
-                ).then(response => { console.log(response); batchLabelCounter === 3 ? getDatasetExamples() : batchLabelCounter++ });
+                ).then(response => { console.log(response); batchLabelCounter === 4 ? getDatasetExamples() : batchLabelCounter++ });
                 console.log(datasetExamples)
             } catch (err) {
                 console.log(err);
@@ -136,7 +136,7 @@ export default function SwipingInterface() {
     };
 
     return (
-        <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 md:mx-auto overflow-x-hidden rounded-md">
+        <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 md:mx-auto overflow-hidden rounded-md">
             {
                 datasetExamples.map(example => (
                     <div key={example.id}>
@@ -144,7 +144,7 @@ export default function SwipingInterface() {
                             onSwipe={handleSwipe}
                             uuid={example.id}
                             detectingSize={100}
-                            className=" absolute top-80 md:top-1/3 left-10 right-10 h-1/2 lg:h-2/3 m-auto lg:w-5/6 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white "
+                            className=" absolute top-80 md:top-1/3 left-10 right-10 h-1/2 lg:h-1/23 m-auto lg:w-5/6 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white "
                             contents={
                                 //Email content will go here vvv
                                 <>
