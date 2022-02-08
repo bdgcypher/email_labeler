@@ -4,10 +4,12 @@ import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { Domain, apiKey } from './domain'
+import error from 'next/error'
 
 const cookies = new Cookies();
 
 export default function Login(userToken: any) {
+  const [error, setError] = useState('')
 
   const initialState = {
     email: '',
@@ -43,29 +45,36 @@ export default function Login(userToken: any) {
 
     await axios.post(URL, JSON.stringify(data), config)
       .then(response => {
-        {
-          response.status === 200 ? (
-            userInfo.email = email,
-            userInfo.token = response.data.access_token,
-
-            cookies.set('user', userInfo)
-          ) : response.status === 401 ? (
-            console.log("Incorrect Email or Password")
-          ) : response.status === 404 ? (
-            alert("Incorrect Email")
-          ) : response.status === 422 ? (
-            alert("Incorrect Password")
-          ) : (alert("Sorry, there was an error on our end... Contact us"))
-        }
+        userInfo.email = email;
+        userInfo.token = response.data.access_token;
+        cookies.set('user', userInfo);
         let userToken = userInfo.token;
         console.log(response.status, userToken);
         {
-          userToken == response.data.access_token ? window.location.replace('/dashboard')
+          userToken === response.data.access_token ? window.location.replace('/dashboard')
             : alert(response.status);
         }
+      }).catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          {
+            error.response.status === 404 ? (setError('Incorrect Email')) : error.response.status === 401 ? (setError('Incorrect Password')) : (setError(error.response.message))
+          }
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          setError(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          setError(error.message);
+        }
+        console.log(error.config);
       });
-
-
 
 
   }
@@ -81,8 +90,14 @@ export default function Login(userToken: any) {
         </div>
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white mx-auto py-8 px-4 shadow rounded-lg lg:w-3/4 sm:px-10">
-            <form className="space-y-6" action="#" onSubmit={handleSubmit} method="POST">
+            <form className="space-y-6" action="#" method="POST">
               <div>
+                {error ? (
+                  <div className="p-2 text-center border-b-red-600 border-2 bg-red-200 rounded-md">
+                    <p className="text-sm text-red-600">* {error} *</p>
+                  </div>
+                ) : (null)}
+
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                   Email address
                 </label>
@@ -119,6 +134,7 @@ export default function Login(userToken: any) {
               <div>
                 <button
                   type="submit"
+                  onClick={handleSubmit}
                   className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   Sign in
