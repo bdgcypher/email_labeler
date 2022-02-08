@@ -184,7 +184,7 @@ class FileUploader extends Component {
     for (var i = 0; i < num_chunks; i++) {
       //prints progress every 10 chunks
       //use this to update the progress bar
-      if (i % 3 == 0) {
+      if (i % 1 == 0) {
         console.log(`We have uploaded ${bytes_uploaded} bytes`);
         console.log(`We have uploaded ${i} chunks out of ${num_chunks}`);
         this.setState({ uploadProgress: bytes_uploaded });
