@@ -13,10 +13,22 @@ const user = cookies.get('userAuth');
 
 const dataset_id = cookies.get('datasetId');
 
+const dataset_types = [
+    { type: 'Email', format: '.mbox' },
+    // { type: 'Image', format: '.png or .jpg' },
+    // { type: 'Text', format: '.txt or .pdf or .docx' },
+]
+
+function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ')
+}
+
 
 export default function SwipingInterface() {
 
     const [datasetExamples, setDatasetExamples] = useState([]);
+
+    const [stats, setStats] = useState({ total_size: '', num_labeled: '', num_to_label: '', dataset_accuracy: '' });
 
     const getDatasetStats = () => {
         try {
@@ -25,18 +37,44 @@ export default function SwipingInterface() {
                     "Api-Key": apiKey,
                     "Authorization": user.token
                 }
-            }).then(response => { console.log(response); cookies.set('datasetStats', response.data); });
+            }).then(response => { console.log(response); setStats(response.data); console.log((parseFloat(response.data.dataset_accuracy) * 100).toFixed(2), "% accurate"); }).catch(function (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                    {
+                        error.response.status === 401 ? (
+                            window.location.replace('/login')
+                        ) : (console.log(error.response.message))
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log(error.message);
+                }
+                console.log(error.config);
+            });
         } catch (err) {
             console.log(err);
         }
     }
+
+    useEffect(() => {
+        getDatasetStats()
+    }, [])
 
     console.log(dataset_id)
 
     const getDatasetExamples = () => {
         console.log(user.token)
         try {
-            let numOfExamples = 5
+            let numOfExamples = 1
             axios.get(`${Domain}content/${dataset_id}/${numOfExamples}`, {
                 headers: {
                     "Api-Key": apiKey,
@@ -47,29 +85,30 @@ export default function SwipingInterface() {
                 setDatasetExamples(response.data);
                 // datasetExamples.map(example => (renderHtml('hello', example.id)))
                 console.log('examples: ', datasetExamples);
+                getDatasetStats();
             }).catch(function (error) {
                 if (error.response) {
-                  // The request was made and the server responded with a status code
-                  // that falls out of the range of 2xx
-                  console.log(error.response.data);
-                  console.log(error.response.status);
-                  console.log(error.response.headers);
-                  {
-                    error.response.status === 401 ? (
-                        window.location.replace('/login')
-                    ) : (console.log(error.response.message))
-                  }
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                    {
+                        error.response.status === 401 ? (
+                            window.location.replace('/login')
+                        ) : (console.log(error.response.message))
+                    }
                 } else if (error.request) {
-                  // The request was made but no response was received
-                  // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                  // http.ClientRequest in node.js
-                  console.log(error.request);
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
                 } else {
-                  // Something happened in setting up the request that triggered an Error
-                  console.log(error.message);
+                    // Something happened in setting up the request that triggered an Error
+                    console.log(error.message);
                 }
                 console.log(error.config);
-              });
+            });
         } catch (err) {
             console.log(err);
         }
@@ -79,7 +118,7 @@ export default function SwipingInterface() {
         getDatasetExamples()
     }, [])
 
-    var batchLabelCounter = 0;
+    var batchLabelCounter = 1;
 
     const handleSwipe = (d: any, uuid: any) => {
         console.log(uuid)
@@ -102,7 +141,7 @@ export default function SwipingInterface() {
             try {
                 axios.post(`${Domain}content/${dataset_id}`,
                     JSON.stringify(body), config
-                ).then(response => { console.log(response); batchLabelCounter === 4 ? getDatasetExamples() : batchLabelCounter++ });
+                ).then(response => { console.log(response); batchLabelCounter === 1 ? getDatasetExamples() : batchLabelCounter++ });
 
                 console.log(datasetExamples)
             } catch (err) {
@@ -126,7 +165,7 @@ export default function SwipingInterface() {
             try {
                 axios.post(`${Domain}content/${dataset_id}`,
                     JSON.stringify(body), config
-                ).then(response => { console.log(response); batchLabelCounter === 4 ? getDatasetExamples() : batchLabelCounter++ });
+                ).then(response => { console.log(response); batchLabelCounter === 1 ? getDatasetExamples() : batchLabelCounter++ });
                 console.log(datasetExamples)
             } catch (err) {
                 console.log(err);
@@ -135,66 +174,98 @@ export default function SwipingInterface() {
         }
     };
 
+
     return (
-        <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 md:mx-auto overflow-hidden rounded-md">
-            {
-                datasetExamples.map(example => (
-                    <div key={example.id}>
-                        <CardSwiper
-                            onSwipe={handleSwipe}
-                            uuid={example.id}
-                            detectingSize={100}
-                            className=" absolute top-80 md:top-1/3 left-10 right-10 h-1/2 lg:h-1/23 m-auto lg:w-5/6 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white "
-                            contents={
-                                //Email content will go here vvv
-                                <>
-                                    {example.display_is_html ? (
-                                        example.display.replace(/(<style([\S\s]*?)>([\S\s]*?)<\/style>>)/g, ""),
-
-
-                                        <>
-                                            <div className="break-all">
-                                                <h1 className="text-md text-gray-900 break-all">From:</h1>
-                                                <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all" dangerouslySetInnerHTML={{ __html: example.from }}></p>
-                                            </div>
-                                            <div className="mt-2">
-                                                <h1 className="text-md text-gray-900 break-all">Subject:</h1>
-                                                <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all" dangerouslySetInnerHTML={{ __html: example.subject }}></p>
-                                            </div>
-                                            <div className="object-contain overflow-x-hidden mt-8 p-2 ">
-                                                <div className="test pointer-events-none" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(example.display) }}></div>
-                                                {/* <iframe srcDoc={example.display} height="800" className="rounded-md overflow-x-hidden pointer-events-none"></iframe> */}
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className="flex flex-row break-all">
-                                                <h1 className="text-md text-gray-900 break-all">From:</h1>
-                                                <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all">{example.from}</p>
-                                            </div>
-                                            <div className="flex flex-row mt-2">
-                                                <h1 className="text-md text-gray-900 break-all">Subject:</h1>
-                                                <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all">{example.subject}</p>
-                                            </div>
-                                            <div className="flex flex-row mt-8 break-all">
-                                                <p className="text-xs md:text-sm w-5/6 text-gray-500 break-all">
-                                                    {example.display}
-                                                </p>
-                                            </div>
-                                        </>
-                                    )}
-
-                                </>
-                            }
-                        />
-                    </div>
-                ))
-            }
-            <div className="absolute bottom-1/3 left-0 h-12 lg:h-20 w-8 lg:w-20 pt-4 lg:pt-6 pl-2 lg:pl-6 bg-red-200 rounded-r-full shadow-xl">
-                <RiCloseFill className="text-red-700 lg:text-3xl" />
+        <div className="overflow-x-hidden overflow-y-hidden w-screen">
+            {/* Stats container */}
+            <div className="h-80 md:h-96 px-2 md:px-10 lg:px-20 bg-gray-900">
+                {/* progress card container */}
+                <div className="pt-6">
+                    <dl className="grid grid-cols-2 rounded-lg bg-white overflow-hidden shadow divide-x-2 divide-gray-300">
+                        <div key={"0"} className="px-4 py-5 sm:p-6">
+                            <dt className="text-xs md:text-base font-normal text-gray-900">Labeling Progress</dt>
+                            <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
+                                <div className="flex items-baseline text-md md:text-2xl font-semibold text-blue-600">
+                                    {stats.num_labeled}
+                                    <span className="ml-2 text-xs md:text-sm font-medium text-gray-500">of {stats.total_size}</span>
+                                </div>
+                            </dd>
+                        </div>
+                        <div key={"1"} className="px-4 py-5 sm:p-6">
+                            <dt className="text-xs md:text-base font-normal text-gray-900">Dataset Accuracy</dt>
+                            <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
+                                <div className="flex items-baseline text-md md:text-2xl font-semibold text-blue-600">
+                                    {(parseFloat(stats.dataset_accuracy) * 100).toFixed(2)}
+                                    <span className="ml-2 text-xs md:text-sm font-medium text-gray-500">of 95%</span>
+                                </div>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+                {/* question text */}
+                <div className="flex flex-row justify-center p-4 md:p-10 text-md lg:text-2xl text-gray-400">Would you have liked to receive a notification about this email?</div>
             </div>
-            <div className="absolute bottom-1/3 right-0 h-12 lg:h-20 w-8 lg:w-20 pt-4 lg:pt-6 pl-2 lg:pl-8 bg-green-200 rounded-l-full shadow-xl">
-                <AiOutlineCheck className="text-green-700 lg:text-3xl" />
+            {/* cards to swipe */}
+            <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 md:mx-auto overflow-hidden rounded-md">
+                {
+                    datasetExamples.map(example => (
+                        <div key={example.id}>
+                            <CardSwiper
+                                onSwipe={handleSwipe}
+                                uuid={example.id}
+                                detectingSize={100}
+                                className=" absolute top-80 md:top-1/3 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-5/6 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white "
+                                contents={
+                                    //Email content will go here vvv
+                                    <>
+                                        {example.display_is_html ? (
+                                            example.display.replace(/(<style([\S\s]*?)>([\S\s]*?)<\/style>>)/g, ""),
+
+
+                                            <>
+                                                <div className="break-all">
+                                                    <h1 className="text-md text-gray-900 break-all">From:</h1>
+                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all" dangerouslySetInnerHTML={{ __html: example.from }}></p>
+                                                </div>
+                                                <div className="mt-2">
+                                                    <h1 className="text-md text-gray-900 break-all">Subject:</h1>
+                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all" dangerouslySetInnerHTML={{ __html: example.subject }}></p>
+                                                </div>
+                                                <div className="object-contain overflow-x-hidden mt-8 p-2 ">
+                                                    <div className="test pointer-events-none" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(example.display) }}></div>
+                                                    {/* <iframe srcDoc={example.display} height="800" className="rounded-md overflow-x-hidden pointer-events-none"></iframe> */}
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="flex flex-row break-all">
+                                                    <h1 className="text-md text-gray-900 break-all">From:</h1>
+                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all">{example.from}</p>
+                                                </div>
+                                                <div className="flex flex-row mt-2">
+                                                    <h1 className="text-md text-gray-900 break-all">Subject:</h1>
+                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all">{example.subject}</p>
+                                                </div>
+                                                <div className="flex flex-row mt-8 break-all">
+                                                    <p className="text-xs md:text-sm w-5/6 text-gray-500 break-all">
+                                                        {example.display}
+                                                    </p>
+                                                </div>
+                                            </>
+                                        )}
+
+                                    </>
+                                }
+                            />
+                        </div>
+                    ))
+                }
+                <div className="absolute bottom-1/3 left-0 h-12 lg:h-20 w-8 lg:w-20 pt-4 lg:pt-6 pl-2 lg:pl-6 bg-red-200 rounded-r-full shadow-xl">
+                    <RiCloseFill className="text-red-700 lg:text-3xl" />
+                </div>
+                <div className="absolute bottom-1/3 right-0 h-12 lg:h-20 w-8 lg:w-20 pt-4 lg:pt-6 pl-2 lg:pl-8 bg-green-200 rounded-l-full shadow-xl">
+                    <AiOutlineCheck className="text-green-700 lg:text-3xl" />
+                </div>
             </div>
         </div>
     );
