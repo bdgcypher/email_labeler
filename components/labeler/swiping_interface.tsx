@@ -139,7 +139,30 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
             try {
                 axios.post(`${Domain}content/${dataset_id}`,
                     JSON.stringify(body), config
-                ).then(response => { console.log(response); batchLabelCounter === 1 ? getDatasetExamples() : batchLabelCounter++ });
+                ).then(response => { console.log(response); batchLabelCounter === 1 ? getDatasetExamples() : batchLabelCounter++ }
+                ).catch(function (error) {
+                    if (error.response) {
+                      // The request was made and the server responded with a status code
+                      // that falls out of the range of 2xx
+                      console.log(error.response.data);
+                      console.log(error.response.status);
+                      console.log(error.response.headers);
+                      {
+                        error.response.status === 401 ? (
+                            window.location.replace('/login')
+                        ) : (console.log(error.response.message))
+                      }
+                    } else if (error.request) {
+                      // The request was made but no response was received
+                      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                      // http.ClientRequest in node.js
+                      console.log(error.request);
+                    } else {
+                      // Something happened in setting up the request that triggered an Error
+                      console.log(error.message);
+                    }
+                    console.log(error.config);
+                  });
 
                 console.log(datasetExamples)
             } catch (err) {
@@ -165,7 +188,30 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
             try {
                 axios.post(`${Domain}content/${dataset_id}`,
                     JSON.stringify(body), config
-                ).then(response => { console.log(response); batchLabelCounter === 1 ? getDatasetExamples() : batchLabelCounter++ });
+                ).then(response => { console.log(response); batchLabelCounter === 1 ? getDatasetExamples() : batchLabelCounter++ }
+                ).catch(function (error) {
+                    if (error.response) {
+                      // The request was made and the server responded with a status code
+                      // that falls out of the range of 2xx
+                      console.log(error.response.data);
+                      console.log(error.response.status);
+                      console.log(error.response.headers);
+                      {
+                        error.response.status === 401 ? (
+                            window.location.replace('/login')
+                        ) : (console.log(error.response.message))
+                      }
+                    } else if (error.request) {
+                      // The request was made but no response was received
+                      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                      // http.ClientRequest in node.js
+                      console.log(error.request);
+                    } else {
+                      // Something happened in setting up the request that triggered an Error
+                      console.log(error.message);
+                    }
+                    console.log(error.config);
+                  });
                 console.log(datasetExamples)
             } catch (err) {
                 console.log(err);
