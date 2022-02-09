@@ -22,9 +22,6 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
 
     const [stats, setStats] = useState({ total_size: '', num_labeled: '', num_to_label: '', dataset_accuracy: '' });
 
-    const [update, updateState] = React.useState(false);
-    const forceUpdate = React.useCallback(() => updateState(!update), []);
-
     const getDatasetStats = () => {
         try {
             axios.get(`${Domain}dataset/${dataset_id}/stats`, {
@@ -69,7 +66,8 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
             console.log("now: ", Math.floor(Date.now() / 1000))
             console.log("expires: ", example.expires)
             example.expires <= Math.floor(Date.now() / 1000) ? (
-                console.log('expired example')
+                console.log('expired example'),
+                getDatasetExamples()
             ) : example.expires >= Math.floor(Date.now() / 1000) ? (
                 console.log('not expired')
             ) : (
@@ -83,20 +81,15 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
     const getDatasetExamples = () => {
         console.log(user.token)
         try {
-            let numOfExamples = 5
+            let numOfExamples = 1
             axios.get(`${Domain}content/${dataset_id}/${numOfExamples}`, {
                 headers: {
                     "Api-Key": apiKey,
                     "Authorization": user.token
                 }
             }).then(response => {
-                console.log(response.data);
-                let datasetArray = [];
-                datasetArray.push(response.data)
-                datasetArray.slice(0, 5)
-                setDatasetExamples(datasetExamples);
-                forceUpdate();
-                console.log('examples: ', datasetExamples);
+                console.log("examples: ", response.data);
+                setDatasetExamples(response.data);
                 getDatasetStats();
             }).catch(function (error) {
                 if (error.response) {
@@ -156,7 +149,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
             try {
                 axios.post(`${Domain}content/${dataset_id}`,
                     JSON.stringify(body), config
-                ).then(response => { console.log(response); batchLabelCounter === 4 ? getDatasetExamples() : batchLabelCounter++ }
+                ).then(response => { console.log(response); batchLabelCounter === 1 ? getDatasetExamples() : batchLabelCounter++ }
                 ).catch(function (error) {
                     if (error.response) {
                         // The request was made and the server responded with a status code
@@ -205,7 +198,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
             try {
                 axios.post(`${Domain}content/${dataset_id}`,
                     JSON.stringify(body), config
-                ).then(response => { console.log(response); batchLabelCounter === 4 ? getDatasetExamples() : batchLabelCounter++ }
+                ).then(response => { console.log(response); batchLabelCounter === 1 ? getDatasetExamples() : batchLabelCounter++ }
                 ).catch(function (error) {
                     if (error.response) {
                         // The request was made and the server responded with a status code

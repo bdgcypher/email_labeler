@@ -116,6 +116,20 @@ class FileUploader extends Component {
 
   }
 
+  deleteDataset(dataset_id, api_key, auth_token) {
+    return new Promise((resolve, reject) => {
+      fetch(Domain + '/dataset/' + dataset_id, {
+        method: "DELETE", headers: {
+          'Api-Key': api_key,
+          'Authorization': auth_token
+        }
+      })
+        .then(response => {
+          resolve(response.status);
+        })
+    })
+  }
+
 
   send_chunk(auth_token, api_key, session_uri, starting_byte, ending_byte, filesize, chunk_data) {
     return new Promise((resolve, reject) => {
@@ -249,7 +263,10 @@ class FileUploader extends Component {
 
           var endTime = performance.now()
           console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
-          this.setState({ uploadStarted: false, uploadError: true });
+          console.log(`We are deleting dataset: ${dataset_id}`)
+
+          this.deleteDataset(dataset_id, api_key, auth_token)
+          this.setState({ uploadStarted: false, uploadError: true});
 
           return false;
         }
