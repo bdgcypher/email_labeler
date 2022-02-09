@@ -16,7 +16,7 @@ const user = cookies.get('user');
 
 const navigation = [
     { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
-    // { name: 'Upload', href: '#', icon: AiOutlineCloudUpload, current: false },
+    { name: 'Upload', href: '/upload', icon: AiOutlineCloudUpload, current: false },
 ]
 
 function classNames(...classes: string[]) {
