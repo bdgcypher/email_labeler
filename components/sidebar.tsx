@@ -9,15 +9,11 @@ import {
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { Domain, apiKey } from './domain'
+import { useRouter } from 'next/router'
 
 const cookies = new Cookies();
 
 const user = cookies.get('user');
-
-const navigation = [
-    { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
-    { name: 'Upload', href: '/upload', icon: AiOutlineCloudUpload, current: false },
-]
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -25,7 +21,14 @@ function classNames(...classes: string[]) {
 
 export default function Sidebar({ datasetExamples }) {
 
+    const router = useRouter();
     const [sidebarOpen, setSidebarOpen] = useState(false)
+
+    const navigation = [
+        { name: 'Dashboard', href: '/', icon: HomeIcon, current: router.pathname === '/' ? true : false },
+        { name: 'Upload', href: '/upload', icon: AiOutlineCloudUpload, current: router.pathname === '/upload' ? true : false },
+    ]
+
     const handleLogout = () => {
         try {
             console.log(user.token)
@@ -41,7 +44,7 @@ export default function Sidebar({ datasetExamples }) {
             }
             axios.post(`${Domain}user/logout/${user.email}`, JSON.stringify(body),
                 config
-            ).then(response => { console.log(response); window.location.replace('/login')}).catch(function (error) {
+            ).then(response => { console.log(response); window.location.replace('/login') }).catch(function (error) {
                 if (error.response) {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
@@ -127,6 +130,7 @@ export default function Sidebar({ datasetExamples }) {
                                             <a
                                                 key={item.name}
                                                 href={item.href}
+                                                onClick={() => { { item.current = true } }}
                                                 className={classNames(
                                                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                     'group flex items-center px-2 py-2 text-base font-medium rounded-md'
