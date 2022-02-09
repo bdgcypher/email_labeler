@@ -130,7 +130,7 @@ export default function Sidebar({ datasetExamples }) {
                                             <a
                                                 key={item.name}
                                                 href={item.href}
-                                                onClick={() => { { item.current = true } }}
+                                                onClick={() => { }}
                                                 className={classNames(
                                                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                     'group flex items-center px-2 py-2 text-base font-medium rounded-md'

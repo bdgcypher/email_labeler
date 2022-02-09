@@ -4,7 +4,7 @@ import { CardSwiper } from './card_swiper_function';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { Domain, apiKey } from '../domain';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
 
 const cookies = new Cookies();
@@ -21,6 +21,9 @@ function classNames(...classes: string[]) {
 export default function SwipingInterface({ datasetExamples, setDatasetExamples }) {
 
     const [stats, setStats] = useState({ total_size: '', num_labeled: '', num_to_label: '', dataset_accuracy: '' });
+
+    const [update, updateState] = React.useState(false);
+    const forceUpdate = React.useCallback(() => updateState(!update), []);
 
     const getDatasetStats = () => {
         try {
@@ -61,12 +64,26 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
         getDatasetStats()
     }, [])
 
+    const checkExpiredExamples = (datasetExamples: any) => {
+        for (const example of datasetExamples) {
+            console.log("now: ", Math.floor(Date.now() / 1000))
+            console.log("expires: ", example.expires)
+            example.expires <= Math.floor(Date.now() / 1000) ? (
+                console.log('expired example')
+            ) : example.expires >= Math.floor(Date.now() / 1000) ? (
+                console.log('not expired')
+            ) : (
+                console.log('something is off with getExpiredExamples')
+            )
+        }
+    }
+
     console.log(dataset_id)
 
     const getDatasetExamples = () => {
         console.log(user.token)
         try {
-            let numOfExamples = 1
+            let numOfExamples = 5
             axios.get(`${Domain}content/${dataset_id}/${numOfExamples}`, {
                 headers: {
                     "Api-Key": apiKey,
@@ -74,12 +91,11 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                 }
             }).then(response => {
                 console.log(response.data);
-                // let datasetArray = [];
-                // for (const i of response.data) {
-
-                // }
-                setDatasetExamples(response.data);
-                // datasetExamples.map(example => (renderHtml('hello', example.id)))
+                let datasetArray = [];
+                datasetArray.push(response.data)
+                datasetArray.slice(0, 5)
+                setDatasetExamples(datasetExamples);
+                forceUpdate();
                 console.log('examples: ', datasetExamples);
                 getDatasetStats();
             }).catch(function (error) {
@@ -119,6 +135,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
     const handleSwipe = (d: any, uuid: any) => {
         console.log(uuid)
         console.log(batchLabelCounter)
+        checkExpiredExamples(datasetExamples)
 
         if (d === "right") {
 
@@ -139,30 +156,30 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
             try {
                 axios.post(`${Domain}content/${dataset_id}`,
                     JSON.stringify(body), config
-                ).then(response => { console.log(response); batchLabelCounter === 1 ? getDatasetExamples() : batchLabelCounter++ }
+                ).then(response => { console.log(response); batchLabelCounter === 4 ? getDatasetExamples() : batchLabelCounter++ }
                 ).catch(function (error) {
                     if (error.response) {
-                      // The request was made and the server responded with a status code
-                      // that falls out of the range of 2xx
-                      console.log(error.response.data);
-                      console.log(error.response.status);
-                      console.log(error.response.headers);
-                      {
-                        error.response.status === 401 ? (
-                            window.location.replace('/login')
-                        ) : (console.log(error.response.message))
-                      }
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                        {
+                            error.response.status === 401 ? (
+                                window.location.replace('/login')
+                            ) : (console.log(error.response.message))
+                        }
                     } else if (error.request) {
-                      // The request was made but no response was received
-                      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                      // http.ClientRequest in node.js
-                      console.log(error.request);
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        console.log(error.request);
                     } else {
-                      // Something happened in setting up the request that triggered an Error
-                      console.log(error.message);
+                        // Something happened in setting up the request that triggered an Error
+                        console.log(error.message);
                     }
                     console.log(error.config);
-                  });
+                });
 
                 console.log(datasetExamples)
             } catch (err) {
@@ -188,30 +205,30 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
             try {
                 axios.post(`${Domain}content/${dataset_id}`,
                     JSON.stringify(body), config
-                ).then(response => { console.log(response); batchLabelCounter === 1 ? getDatasetExamples() : batchLabelCounter++ }
+                ).then(response => { console.log(response); batchLabelCounter === 4 ? getDatasetExamples() : batchLabelCounter++ }
                 ).catch(function (error) {
                     if (error.response) {
-                      // The request was made and the server responded with a status code
-                      // that falls out of the range of 2xx
-                      console.log(error.response.data);
-                      console.log(error.response.status);
-                      console.log(error.response.headers);
-                      {
-                        error.response.status === 401 ? (
-                            window.location.replace('/login')
-                        ) : (console.log(error.response.message))
-                      }
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                        {
+                            error.response.status === 401 ? (
+                                window.location.replace('/login')
+                            ) : (console.log(error.response.message))
+                        }
                     } else if (error.request) {
-                      // The request was made but no response was received
-                      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                      // http.ClientRequest in node.js
-                      console.log(error.request);
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        console.log(error.request);
                     } else {
-                      // Something happened in setting up the request that triggered an Error
-                      console.log(error.message);
+                        // Something happened in setting up the request that triggered an Error
+                        console.log(error.message);
                     }
                     console.log(error.config);
-                  });
+                });
                 console.log(datasetExamples)
             } catch (err) {
                 console.log(err);
@@ -260,7 +277,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                                 onSwipe={handleSwipe}
                                 uuid={content.id}
                                 detectingSize={100}
-                                className=" absolute top-80 md:top-1/3 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-5/6 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white "
+                                className=" absolute top-80 md:top-1/3 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-5/6 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white cursor-pointer"
                                 contents={
                                     //Email content will go here vvv
                                     <>
