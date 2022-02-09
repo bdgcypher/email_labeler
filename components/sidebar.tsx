@@ -23,7 +23,7 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Sidebar() {
+export default function Sidebar({ datasetExamples }) {
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const handleLogout = () => {

@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Sidebar from '../../components/sidebar';
+import { useState } from 'react';
 
 const SwipingInterface = dynamic(() => import('../../components/labeler/swiping_interface'), {
   ssr: false
@@ -9,6 +10,7 @@ const SwipingInterface = dynamic(() => import('../../components/labeler/swiping_
 
 export default function Home() {
 
+  const [datasetExamples, setDatasetExamples] = useState([]);
   
   return (
     <>
@@ -17,8 +19,8 @@ export default function Home() {
         <meta name="description" content="NotifAI" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Sidebar />
-      <SwipingInterface />
+      <Sidebar datasetExamples={datasetExamples} />
+      <SwipingInterface datasetExamples={datasetExamples} setDatasetExamples={setDatasetExamples} />
     </>
   )
 }

@@ -13,20 +13,12 @@ const user = cookies.get('userAuth');
 
 const dataset_id = cookies.get('datasetId');
 
-const dataset_types = [
-    { type: 'Email', format: '.mbox' },
-    // { type: 'Image', format: '.png or .jpg' },
-    // { type: 'Text', format: '.txt or .pdf or .docx' },
-]
-
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
 
-export default function SwipingInterface() {
-
-    const [datasetExamples, setDatasetExamples] = useState([]);
+export default function SwipingInterface({ datasetExamples, setDatasetExamples }) {
 
     const [stats, setStats] = useState({ total_size: '', num_labeled: '', num_to_label: '', dataset_accuracy: '' });
 
@@ -82,6 +74,10 @@ export default function SwipingInterface() {
                 }
             }).then(response => {
                 console.log(response.data);
+                // let datasetArray = [];
+                // for (const i of response.data) {
+
+                // }
                 setDatasetExamples(response.data);
                 // datasetExamples.map(example => (renderHtml('hello', example.id)))
                 console.log('examples: ', datasetExamples);
@@ -126,10 +122,12 @@ export default function SwipingInterface() {
 
         if (d === "right") {
 
-            let body = {
-                "uuid": uuid,
-                "sentiment": false
-            }
+            let body = [
+                {
+                    "id": uuid,
+                    "label": false
+                }
+            ]
 
             let config = {
                 headers: {
@@ -150,10 +148,12 @@ export default function SwipingInterface() {
             console.log("yes I wanted a notification")
         } else if (d === "left") {
 
-            let body = {
-                "uuid": uuid,
-                "sentiment": false
-            }
+            let body = [
+                {
+                    "id": uuid,
+                    "label": false
+                }
+            ]
 
             let config = {
                 headers: {
@@ -208,31 +208,31 @@ export default function SwipingInterface() {
             {/* cards to swipe */}
             <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 md:mx-auto overflow-hidden rounded-md">
                 {
-                    datasetExamples.map(example => (
-                        <div key={example.id}>
+                    datasetExamples.map(content => (
+                        <div key={content.example.id}>
                             <CardSwiper
                                 onSwipe={handleSwipe}
-                                uuid={example.id}
+                                uuid={content.example.id}
                                 detectingSize={100}
                                 className=" absolute top-80 md:top-1/3 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-5/6 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white "
                                 contents={
                                     //Email content will go here vvv
                                     <>
-                                        {example.display_is_html ? (
-                                            example.display.replace(/(<style([\S\s]*?)>([\S\s]*?)<\/style>>)/g, ""),
+                                        {content.example.email.display_is_html ? (
+                                            content.example.email.display.replace(/(<style([\S\s]*?)>([\S\s]*?)<\/style>>)/g, ""),
 
 
                                             <>
                                                 <div className="break-all">
                                                     <h1 className="text-md text-gray-900 break-all">From:</h1>
-                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all" dangerouslySetInnerHTML={{ __html: example.from }}></p>
+                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all" dangerouslySetInnerHTML={{ __html: content.example.email.from }}></p>
                                                 </div>
                                                 <div className="mt-2">
                                                     <h1 className="text-md text-gray-900 break-all">Subject:</h1>
-                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all" dangerouslySetInnerHTML={{ __html: example.subject }}></p>
+                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all" dangerouslySetInnerHTML={{ __html: content.example.email.subject }}></p>
                                                 </div>
                                                 <div className="object-contain overflow-x-hidden mt-8 p-2 ">
-                                                    <div className="test pointer-events-none" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(example.display) }}></div>
+                                                    <div className="test pointer-events-none" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content.example.email.display) }}></div>
                                                     {/* <iframe srcDoc={example.display} height="800" className="rounded-md overflow-x-hidden pointer-events-none"></iframe> */}
                                                 </div>
                                             </>
@@ -240,15 +240,15 @@ export default function SwipingInterface() {
                                             <>
                                                 <div className="flex flex-row break-all">
                                                     <h1 className="text-md text-gray-900 break-all">From:</h1>
-                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all">{example.from}</p>
+                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all">{content.example.email.from}</p>
                                                 </div>
                                                 <div className="flex flex-row mt-2">
                                                     <h1 className="text-md text-gray-900 break-all">Subject:</h1>
-                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all">{example.subject}</p>
+                                                    <p className="text-xs md:text-sm text-gray-500 ml-2 mt-1 break-all">{content.example.email.subject}</p>
                                                 </div>
                                                 <div className="flex flex-row mt-8 break-all">
                                                     <p className="text-xs md:text-sm w-5/6 text-gray-500 break-all">
-                                                        {example.display}
+                                                        {content.example.email.display}
                                                     </p>
                                                 </div>
                                             </>
