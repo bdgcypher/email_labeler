@@ -209,10 +209,10 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
             <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 md:mx-auto overflow-hidden rounded-md">
                 {
                     datasetExamples.map(content => (
-                        <div key={content.example.id}>
+                        <div key={content.id}>
                             <CardSwiper
                                 onSwipe={handleSwipe}
-                                uuid={content.example.id}
+                                uuid={content.id}
                                 detectingSize={100}
                                 className=" absolute top-80 md:top-1/3 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-5/6 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white "
                                 contents={
