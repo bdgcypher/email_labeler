@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
+import { MdOutlineHelp } from 'react-icons/md'
 import {
     HomeIcon,
     MenuIcon,
@@ -29,6 +30,7 @@ export default function Sidebar({ datasetExamples }) {
     const navigation = [
         { name: 'Dashboard', href: '/', icon: HomeIcon, current: router.pathname === '/' ? true : false },
         { name: 'Upload', href: '/upload', icon: AiOutlineCloudUpload, current: router.pathname === '/upload' ? true : false },
+        { name: 'Support', href: 'mailto:withBranchHelp@gmail.com?' },
     ]
 
     const sendUnlabeledExamples = (datasetExamples: any) => {
@@ -105,7 +107,7 @@ export default function Sidebar({ datasetExamples }) {
                     console.log(error.response.status);
                     console.log(error.response.headers);
                     {
-                        error.response.status === 400 ? (console.log('missing something from request')) : error.response.status === 401 ? (console.log('invalid auth token')) : (console.log(error.response.message))
+                        error.response.status === 400 ? (console.log('missing something from request')) : error.response.status === 401 ? (console.log('invalid auth token'), window.location.replace('/login')) : (console.log(error.response.message))
                     }
                 } else if (error.request) {
                     // The request was made but no response was received
