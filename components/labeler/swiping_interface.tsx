@@ -261,7 +261,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                     </dl>
                 </div>
                 {/* question text */}
-                <div className="flex flex-row justify-center p-4 pt-4 md:pt-6 text-md lg:text-xl text-gray-400">If you received this email today, would you want to receive a notification or alert about the email, based on its contents?</div>
+                <div className="flex flex-row justify-center p-4 pt-4 md:pt-6 text-md lg:text-xl text-gray-400">If you received an email with this content today, would you want to receive a notification or alert about that email?</div>
                 <div className="hidden flex-row justify-center p-0 md:p-0 text-md lg:flex lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Click and drag cards to label</div>
                 <div className="flex flex-row justify-center p-0 md:p-0 text-md lg:hidden lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Swipe cards to label</div>
             </div>
