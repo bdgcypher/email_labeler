@@ -78,7 +78,7 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                                 <b>Please note, we suggest following these instructions on a computer.</b>
                                 <br />
                                 <br />
-                                Go to <a href="https://takeout.google.com/" target="_blank" className="text-blue-500 hover:underline">https://takeout.google.com/</a> and make sure you are logged into 
+                                Go to <a href="https://takeout.google.com/" target="_blank" className="text-blue-500 hover:underline">https://takeout.google.com/</a> and make sure you are logged into
                                 the gmail account you want to download emails for.
                             </p>
                         </div>
@@ -90,20 +90,20 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                         </Dialog.Title>
                         <div className="mt-2 px-4">
                             <br />
-                            <img src='/deselect.png'/>
+                            <img src='/deselect.png' />
                         </div>
                     </div>
                 ) : steps[2].status === 'current' ? (
                     <div className="mt-3 text-center sm:mt-5">
                         <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                        Scroll down till you see the section that says "Mail" and select it. Then, scroll to the very bottom of the page and hit the “Next Step” button.
+                            Scroll down till you see the section that says "Mail" and select it. Then, scroll to the very bottom of the page and hit the “Next Step” button.
                         </Dialog.Title>
                         <div className="mt-2 px-4">
                             {/* <p className="text-sm text-gray-500">
                                 Scroll down till you see the section that says "Mail" and select it. Then, scroll to the very bottom of the page and hit the “Next Step” button.
                             </p> */}
                             <br />
-                            <img src='/select_email.png'/>
+                            <img src='/select_email.png' />
                         </div>
                     </div>
                 ) : steps[3].status === 'current' ? (
@@ -125,12 +125,36 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                 {steps[4].status === 'current' ? (
                     <FileUploader />
                 ) : (
-                    <button
-                        className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
-                        onClick={() => { { setStepCounter(stepCounter + 1) }; { steps[3].status === 'current' ? setEmail(false) & setUploadInProgress(true) : null } }}
-                    >
-                        {steps[3].status === 'current' ? 'Upload Data' : 'Next Step'}
-                    </button>
+                    <>
+                        <div className="p-2 flex flex-row columns-2 gap-4">
+
+                            {steps[0].status === 'current' ? (
+                                <button
+                                    className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
+                                    onClick={() => { { setStepCounter(stepCounter + 1) }; { steps[4].status === 'current' ? setEmail(false) & setUploadInProgress(true) : null } }}
+                                >
+                                    {steps[4].status === 'current' ? 'Upload Data' : 'Next'}
+                                </button>
+                            ) : (
+                                <>
+                                    <button
+                                        className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
+                                        onClick={() => { { setStepCounter(stepCounter - 1) };}}
+                                    >
+                                        {steps[4].status === 'current' ? 'Upload Data' : 'Previous'}
+                                    </button>
+                                    <button
+                                        className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
+                                        onClick={() => { { setStepCounter(stepCounter + 1) };}}
+                                    >
+                                        {steps[4].status === 'current' ? 'Upload Data' : 'Next'}
+                                    </button>
+                                </>
+                            )
+                            }
+
+                        </div>
+                    </>
                 )}
             </div>
         </>
