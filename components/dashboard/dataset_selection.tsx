@@ -5,9 +5,6 @@ import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { Dialog, Transition, Listbox } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import UploadEmail from './upload_email';
-import UploadSuccessful from './upload_successful';
-import UploadError from './upload_error';
-import UploadProgress from './upload_progress';
 import ProcessStatus from './process_status';
 import axios from 'axios'
 import Cookies from 'universal-cookie'
@@ -95,6 +92,7 @@ export default function DatasetSelection() {
     // Find the status of each upload for the clicked dataset and display modals for PROCESSING and FAILED. Reroute to labeler for SUCCESS
 
     const getDatasetStatus = (dataset: any) => {
+        getDatasets();
         let datasetUploads = []
         let datasetStatus = '';
         let uploadProcessing = 'PROCESSING';
