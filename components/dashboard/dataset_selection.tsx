@@ -237,7 +237,7 @@ export default function DatasetSelection() {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-10 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-10 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                                 <button onClick={() => { setOpen(false); setEmail(false); setUploadInProgress(false); setProcessingStatus(false); setUploadError(false); setUploadSuccessful(false); getDatasets(); }} className="float-right">
                                     <FaTimesCircle className="text-xl text-red-700" />
                                 </button>
