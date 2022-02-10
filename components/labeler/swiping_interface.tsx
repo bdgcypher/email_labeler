@@ -261,7 +261,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                     </dl>
                 </div>
                 {/* question text */}
-                <div className="flex flex-row justify-center p-4 pt-4 md:pt-6 text-md lg:text-2xl text-gray-400">Would you have liked to receive a notification about this email?</div>
+                <div className="flex flex-row justify-center p-4 pt-4 md:pt-6 text-md lg:text-xl text-gray-400">If you received this email today, would you want to receive a notification or alert about the email, based on its contents?</div>
                 <div className="hidden flex-row justify-center p-0 md:p-0 text-md lg:flex lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Click and drag cards to label</div>
                 <div className="flex flex-row justify-center p-0 md:p-0 text-md lg:hidden lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Swipe cards to label</div>
             </div>
@@ -274,7 +274,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                                 onSwipe={handleSwipe}
                                 uuid={content.id}
                                 detectingSize={100}
-                                className="absolute top-80 md:top-1/3 lg:top-1/3 mt-0 lg:mt-24 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-2/3 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white cursor-pointer"
+                                className="absolute top-80 md:top-1/3 lg:top-1/3 mt-0 lg:mt-28 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-2/3 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white cursor-pointer"
                                 contents={
                                     //Email content will go here vvv
                                     <>
