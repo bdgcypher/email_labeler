@@ -137,7 +137,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
             let body = [
                 {
                     "id": uuid,
-                    "label": false
+                    "label": true
                 }
             ]
 
