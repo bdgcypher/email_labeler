@@ -23,10 +23,11 @@ const dataset_types = [
     // { type: 'Text', format: '.txt or .pdf or .docx' },
 ]
 
+
+
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
-
 
 
 export default function DatasetSelection() {
@@ -35,6 +36,7 @@ export default function DatasetSelection() {
 
     // request the user's datasets
     const getDatasets = () => {
+        user === undefined ? (window.location.replace('/login')) : (null)
         try {
             console.log(user.token)
             axios.get(`${Domain}dataset`, {
@@ -51,6 +53,8 @@ export default function DatasetSelection() {
                   console.log(error.response.headers);
                   {
                     error.response.status === 401 ? (
+                        window.location.replace('/login')
+                    ) : error.response.status === 400 ? (
                         window.location.replace('/login')
                     ) : (console.log(error.response.message))
                   }

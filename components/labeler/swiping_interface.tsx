@@ -79,6 +79,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
     console.log(dataset_id)
 
     const getDatasetExamples = () => {
+        user === undefined ? (window.location.replace('/login')) : (null)
         console.log(user.token)
         try {
             let numOfExamples = 1

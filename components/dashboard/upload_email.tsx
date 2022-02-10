@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Dialog } from '@headlessui/react'
-import FileUploader from './upload_file'
+import { Dialog } from '@headlessui/react';
+import FileUploader from './upload_file';
 import { FaTimesCircle } from 'react-icons/fa';
 
 
