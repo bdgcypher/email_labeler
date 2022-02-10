@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Dialog } from '@headlessui/react'
-import FileUploader from './upload_file'
+import { Dialog } from '@headlessui/react';
+import FileUploader from './upload_file';
 import { FaTimesCircle } from 'react-icons/fa';
 
 
@@ -59,7 +59,7 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                                         <span className="sr-only">{step.name}</span>
                                     </a>
                                 ) : (
-                                    <a href={step.href} className="block w-2.5 h-2.5 bg-gray-200 rounded-full hover:bg-gray-400">
+                                    <a href={step.href} className="block w-2.5 h-2.5 bg-gray-200 rounded-full cursor-default">
                                         <span className="sr-only">{step.name}</span>
                                     </a>
                                 )}

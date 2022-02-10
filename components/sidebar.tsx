@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
+import { MdOutlineHelp } from 'react-icons/md'
 import {
     HomeIcon,
     MenuIcon,
@@ -13,7 +14,9 @@ import { useRouter } from 'next/router'
 
 const cookies = new Cookies();
 
-const user = cookies.get('user');
+const user = cookies.get('userAuth');
+
+const dataset_id = cookies.get('datasetId');
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -27,12 +30,64 @@ export default function Sidebar({ datasetExamples }) {
     const navigation = [
         { name: 'Dashboard', href: '/', icon: HomeIcon, current: router.pathname === '/' ? true : false },
         { name: 'Upload', href: '/upload', icon: AiOutlineCloudUpload, current: router.pathname === '/upload' ? true : false },
+        { name: 'Support', href: 'mailto:withBranchHelp@gmail.com?', icon: MdOutlineHelp, current: false },
     ]
+
+    const sendUnlabeledExamples = (datasetExamples: any) => {
+        for ( const example of datasetExamples) {
+            let body = [
+            {
+                "id": example.id,
+            }
+        ]
+
+        let config = {
+            headers: {
+                "Api-Key": apiKey,
+                "Authorization": cookies.get('userAuth').token
+            },
+        }
+
+        try {
+            axios.post(`${Domain}content/${dataset_id}`,
+                JSON.stringify(body), config
+            ).then(response => { console.log("sent unlabeled exaples", response); }
+            ).catch(function (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                    {
+                        error.response.status === 401 ? (
+                            window.location.replace('/login')
+                        ) : (console.log(error.response.message))
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log(error.message);
+                }
+                console.log(error.config);
+            });
+            console.log(datasetExamples)
+        } catch (err) {
+            console.log(err);
+        }
+        }
+        
+    }
 
     const handleLogout = () => {
         try {
             console.log(user.token)
             console.log(apiKey)
+            sendUnlabeledExamples(datasetExamples)
             let config = {
                 headers: {
                     "Api-Key": apiKey,
@@ -52,7 +107,7 @@ export default function Sidebar({ datasetExamples }) {
                     console.log(error.response.status);
                     console.log(error.response.headers);
                     {
-                        error.response.status === 400 ? (console.log('missing something from request')) : error.response.status === 401 ? (console.log('invalid auth token')) : (console.log(error.response.message))
+                        error.response.status === 400 ? (console.log('missing something from request'), window.location.replace('/login')) : error.response.status === 401 ? (console.log('invalid auth token')) : (console.log(error.response.message))
                     }
                 } else if (error.request) {
                     // The request was made but no response was received
@@ -130,7 +185,7 @@ export default function Sidebar({ datasetExamples }) {
                                             <a
                                                 key={item.name}
                                                 href={item.href}
-                                                onClick={() => { }}
+                                                onClick={() => { sendUnlabeledExamples(datasetExamples) }}
                                                 className={classNames(
                                                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                     'group flex items-center px-2 py-2 text-base font-medium rounded-md'

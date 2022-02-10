@@ -5,9 +5,6 @@ import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { Dialog, Transition, Listbox } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import UploadEmail from './upload_email';
-import UploadSuccessful from './upload_successful';
-import UploadError from './upload_error';
-import UploadProgress from './upload_progress';
 import ProcessStatus from './process_status';
 import axios from 'axios'
 import Cookies from 'universal-cookie'
@@ -26,10 +23,11 @@ const dataset_types = [
     // { type: 'Text', format: '.txt or .pdf or .docx' },
 ]
 
+
+
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
-
 
 
 export default function DatasetSelection() {
@@ -38,6 +36,7 @@ export default function DatasetSelection() {
 
     // request the user's datasets
     const getDatasets = () => {
+        user === undefined ? (window.location.replace('/login')) : (null)
         try {
             console.log(user.token)
             axios.get(`${Domain}dataset`, {
@@ -54,6 +53,8 @@ export default function DatasetSelection() {
                   console.log(error.response.headers);
                   {
                     error.response.status === 401 ? (
+                        window.location.replace('/login')
+                    ) : error.response.status === 400 ? (
                         window.location.replace('/login')
                     ) : (console.log(error.response.message))
                   }
@@ -95,6 +96,7 @@ export default function DatasetSelection() {
     // Find the status of each upload for the clicked dataset and display modals for PROCESSING and FAILED. Reroute to labeler for SUCCESS
 
     const getDatasetStatus = (dataset: any) => {
+        getDatasets();
         let datasetUploads = []
         let datasetStatus = '';
         let uploadProcessing = 'PROCESSING';
@@ -153,7 +155,7 @@ export default function DatasetSelection() {
             <div className="bg-white shadow-lg overflow-hidden m-2 md:mx-auto lg:mt-20 rounded-md md:w-1/2">
                 <ul role="list" className="divide-y divide-gray-200">
                     <li key={0}>
-                        <a href="#" className="block hover:bg-gray-50">
+                        <a href="#" className="block cursor-default">
                             <div className="px-4 py-4 sm:px-6">
                                 <div className="flex items-center justify-between">
                                     <p className="text-lg font-medium text-gray-900 truncate">Your Datasets</p>
@@ -173,7 +175,7 @@ export default function DatasetSelection() {
                     </li>
                     {datasets ? (datasets.map((dataset) => (
                         <li key={dataset.id}>
-                            <div onClick={() => { getDatasetStatus(dataset) }} className="px-4 py-4 sm:px-6 hover:bg-gray-50">
+                            <div onClick={() => { getDatasetStatus(dataset) }} className="px-4 py-4 sm:px-6 hover:bg-gray-50 cursor-pointer">
                                 <div className="flex items-center justify-between">
                                     <p className="text-md font-medium text-blue-600 truncate">{dataset.name}</p>
                                 </div>
