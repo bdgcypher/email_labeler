@@ -74,7 +74,11 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                         </Dialog.Title>
                         <div className="mt-2 px-4">
                             <p className="text-sm text-gray-500">
-                                Login to the email account you want to get the emails for. Then go to <a href="https://takeout.google.com/" target="_blank" className="text-blue-500 hover:underline">https://takeout.google.com/</a>
+                                <b>Please note we suggest following these instructions on a computer.</b>
+                                <br />
+                                <br />
+                                Go to <a href="https://takeout.google.com/" target="_blank" className="text-blue-500 hover:underline">https://takeout.google.com/</a> and make sure you are logged into 
+                                the gmail account you want to download emails for.
                             </p>
                         </div>
                     </div>
@@ -85,8 +89,10 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                         </Dialog.Title>
                         <div className="mt-2 px-4">
                             <p className="text-sm text-gray-500">
-                                Scroll down to the “Create a new Export” section. Then, proceed to click the “Deselect All” button. Scroll down till you see the section that says "Mail" and select it. Finally, scroll to the very bottom and hit the “Next Step” button.
+                                Click the “Deselect All” button. Scroll down till you see the section that says "Mail" and select it. Finally, scroll to the very bottom and hit the “Next Step” button.
                             </p>
+                            <br />
+                            <img src='/deselect.png' width='5000'/>
                         </div>
                     </div>
                 ) : steps[2].status === 'current' ? (
