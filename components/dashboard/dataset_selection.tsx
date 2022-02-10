@@ -151,7 +151,7 @@ export default function DatasetSelection() {
             <div className="bg-white shadow-lg overflow-hidden m-2 md:mx-auto lg:mt-20 rounded-md md:w-1/2">
                 <ul role="list" className="divide-y divide-gray-200">
                     <li key={0}>
-                        <a href="#" className="block hover:bg-gray-50">
+                        <a href="#" className="block cursor-default">
                             <div className="px-4 py-4 sm:px-6">
                                 <div className="flex items-center justify-between">
                                     <p className="text-lg font-medium text-gray-900 truncate">Your Datasets</p>
@@ -171,7 +171,7 @@ export default function DatasetSelection() {
                     </li>
                     {datasets ? (datasets.map((dataset) => (
                         <li key={dataset.id}>
-                            <div onClick={() => { getDatasetStatus(dataset) }} className="px-4 py-4 sm:px-6 hover:bg-gray-50">
+                            <div onClick={() => { getDatasetStatus(dataset) }} className="px-4 py-4 sm:px-6 hover:bg-gray-50 cursor-pointer">
                                 <div className="flex items-center justify-between">
                                     <p className="text-md font-medium text-blue-600 truncate">{dataset.name}</p>
                                 </div>
