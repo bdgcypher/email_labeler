@@ -11,6 +11,7 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
         { name: 'Step 2', href: '#', status: 'upcoming', id: 1 },
         { name: 'Step 3', href: '#', status: 'upcoming', id: 2 },
         { name: 'Step 4', href: '#', status: 'upcoming', id: 3 },
+        { name: 'Step 5', href: '#', status: 'upcoming', id: 4 },
     ]
 
     var [stepCounter, setStepCounter] = useState(0)
@@ -18,7 +19,7 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
     var currentStep = steps[0]
 
     const setCurrentStep = () => {
-        if (currentStep.id <= 2) {
+        if (currentStep.id <= 3) {
             steps[currentStep.id].status = 'complete';
             currentStep = steps[(currentStep.id + 1)];
             steps[currentStep.id].status = 'current';
@@ -70,11 +71,11 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                 {steps[0].status === 'current' ? (
                     <div className="mt-3 text-center sm:mt-5">
                         <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                            Request Your Data
+                            Navigate to https://takeout.google.com/
                         </Dialog.Title>
                         <div className="mt-2 px-4">
                             <p className="text-sm text-gray-500">
-                                <b>Please note we suggest following these instructions on a computer.</b>
+                                <b>Please note, we suggest following these instructions on a computer.</b>
                                 <br />
                                 <br />
                                 Go to <a href="https://takeout.google.com/" target="_blank" className="text-blue-500 hover:underline">https://takeout.google.com/</a> and make sure you are logged into 
@@ -85,17 +86,27 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                 ) : steps[1].status === 'current' ? (
                     <div className="mt-3 text-center sm:mt-5">
                         <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                            Select Only Email Data
+                            Click the “Deselect All” button.
                         </Dialog.Title>
                         <div className="mt-2 px-4">
-                            <p className="text-sm text-gray-500">
-                                Click the “Deselect All” button. Scroll down till you see the section that says "Mail" and select it. Finally, scroll to the very bottom and hit the “Next Step” button.
-                            </p>
                             <br />
-                            <img src='/deselect.png' width='5000'/>
+                            <img src='/deselect.png'/>
                         </div>
                     </div>
                 ) : steps[2].status === 'current' ? (
+                    <div className="mt-3 text-center sm:mt-5">
+                        <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                        Scroll down till you see the section that says "Mail" and select it. Then, scroll to the very bottom of the page and hit the “Next Step” button.
+                        </Dialog.Title>
+                        <div className="mt-2 px-4">
+                            {/* <p className="text-sm text-gray-500">
+                                Scroll down till you see the section that says "Mail" and select it. Then, scroll to the very bottom of the page and hit the “Next Step” button.
+                            </p> */}
+                            <br />
+                            <img src='/select_email.png'/>
+                        </div>
+                    </div>
+                ) : steps[3].status === 'current' ? (
                     <div className="mt-3 text-center sm:mt-5">
                         <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
                             Download Email Data
@@ -106,12 +117,12 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                             </p>
                         </div>
                     </div>
-                ) : steps[3].status === 'current' ? (
+                ) : steps[4].status === 'current' ? (
                     null
                 ) : null}
             </div>
             <div className="mt-5 sm:mt-6">
-                {steps[3].status === 'current' ? (
+                {steps[4].status === 'current' ? (
                     <FileUploader />
                 ) : (
                     <button
