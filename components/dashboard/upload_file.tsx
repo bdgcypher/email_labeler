@@ -375,7 +375,11 @@ class FileUploader extends Component {
               </Dialog.Title>
               <div className="mt-2 px-4">
                 <p className="text-sm text-gray-500">
-                  Once the email data has finished downloading, upload the file by selecting the file and clicking the button below.
+                  Go to your downloads, look for a file named "All mail Including Spam and Trash.mbox", hit the "Choose Files" button below, and select that file. If you do not have this this file, look
+                  for a file named "takeout-&lt;Some Number&gt;.zip", for example "takeout-20220208T001830Z-001.zip", hit the "Choose Files" button below, and select that file. Finally, hit the upload button below.
+                  <br />
+                  <br />
+                  Give your data set a memorable name, it could be anything you want.
                 </p>
               </div>
             </div>
