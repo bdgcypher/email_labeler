@@ -1,5 +1,6 @@
 import { RiCloseFill } from 'react-icons/ri';
 import { AiOutlineCheck } from 'react-icons/ai';
+import { MdSwipe } from 'react-icons/md';
 import { CardSwiper } from './card_swiper_function';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
@@ -260,7 +261,9 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                     </dl>
                 </div>
                 {/* question text */}
-                <div className="flex flex-row justify-center p-4 md:p-10 text-md lg:text-2xl text-gray-400">Would you have liked to receive a notification about this email?</div>
+                <div className="flex flex-row justify-center p-4 pt-4 md:pt-6 text-md lg:text-2xl text-gray-400">Would you have liked to receive a notification about this email?</div>
+                <div className="hidden flex-row justify-center p-0 md:p-0 text-md lg:flex lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Click and drag cards to label</div>
+                <div className="flex flex-row justify-center p-0 md:p-0 text-md lg:hidden lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Swipe cards to label</div>
             </div>
             {/* cards to swipe */}
             <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 md:mx-auto overflow-hidden rounded-md">
@@ -271,7 +274,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                                 onSwipe={handleSwipe}
                                 uuid={content.id}
                                 detectingSize={100}
-                                className=" absolute top-80 md:top-1/3 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-5/6 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white cursor-pointer"
+                                className="absolute top-80 md:top-1/3 lg:top-1/3 mt-0 lg:mt-24 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-2/3 bg-white rounded-md p-4 lg:p-20 overflow-y-auto shadow-xl border-b-8 border-b-white cursor-pointer"
                                 contents={
                                     //Email content will go here vvv
                                     <>
