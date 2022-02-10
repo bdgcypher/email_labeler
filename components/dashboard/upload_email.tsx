@@ -19,7 +19,7 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
     var currentStep = steps[0]
 
     const setCurrentStep = () => {
-        if (currentStep.id <= 3) {
+        if (currentStep.id <= 4) {
             steps[currentStep.id].status = 'complete';
             currentStep = steps[(currentStep.id + 1)];
             steps[currentStep.id].status = 'current';
@@ -109,12 +109,13 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                 ) : steps[3].status === 'current' ? (
                     <div className="mt-3 text-center sm:mt-5">
                         <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                            Download Email Data
+                        Hit the “Create Export” button. A download link will be sent to your email; it may take a while for the link to be sent, so take a break and relax while you wait for the email to arrive.
                         </Dialog.Title>
                         <div className="mt-2 px-4">
-                            <p className="text-sm text-gray-500">
-                                Hit the “Create Export” button. A download link will be sent to your email; it may take a while for the link to be sent, so take a break and relax. Once the link arrives, click on it and begin the download.
-                            </p>
+                            {/* <p className="text-sm text-gray-500">
+                                Hit the “Create Export” button. A download link will be sent to your email; it may take a while for the link to be sent, so take a break and relax while you wait for the email to arrive.
+                            </p> */}
+                            <img src='/create_export.png'/>
                         </div>
                     </div>
                 ) : steps[4].status === 'current' ? (
@@ -129,7 +130,7 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                         className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
                         onClick={() => { { setStepCounter(stepCounter + 1) }; { steps[3].status === 'current' ? setEmail(false) & setUploadInProgress(true) : null } }}
                     >
-                        {steps[3].status === 'current' ? 'Upload Data' : 'Next Step'}
+                        {steps[4].status === 'current' ? 'Upload Data' : 'Next Step'}
                     </button>
                 )}
             </div>
