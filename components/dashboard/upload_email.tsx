@@ -140,7 +140,7 @@ export default function UploadEmail({ setEmail, setUploadInProgress, setOpen }) 
                         </Dialog.Title>
                         <div className="mt-2 px-4">
                             <p className="text-sm text-gray-500">
-                            <b>It may take about 30 minutes to recieve the email.</b>While you wait feel free to take a break and watch your favorite show. Once the email has come in, go to your gmail inbox, open the email from "Google Takeout", and click "Download your files".
+                            <b>The more emails you have the longer it will take to recieve the email from google. In some cases, this could take several hours.</b> Once the email has come in, go to your gmail inbox, open the email from "Google Takeout", and click "Download your files".
                             </p>
                             <img src='/download_files.png'/>
                         </div>
