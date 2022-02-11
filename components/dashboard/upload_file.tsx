@@ -342,8 +342,8 @@ class FileUploader extends Component {
                 <dt className="text-base font-normal text-gray-900">Uploaded</dt>
                 <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
                   <div className="flex items-baseline text-2xl font-semibold text-blue-600">
-                    {this.state.uploadProgress}
-                    <span className="ml-2 text-sm font-medium text-gray-500">of {this.state.outOf} bytes</span>
+                    {this.state.uploadProgressPercentage.toFixed(2)}%
+                    <span className="ml-2 text-sm font-medium text-gray-500">of {(this.state.outOf / 1000000).toFixed(2)} MB</span>
                   </div>
                 </dd>
 
