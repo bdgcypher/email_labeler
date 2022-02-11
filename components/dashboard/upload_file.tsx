@@ -10,7 +10,7 @@ import UploadError from './upload_error';
 const cookies = new Cookies();
 const user = cookies.get('user')
 
-const MAX_BYTES_PER_CHUNK = 1048576;
+const MAX_BYTES_PER_CHUNK = 5242880;
 
 
 class FileUploader extends Component {
