@@ -85,10 +85,10 @@ export const CardSwiper = (props: TProps) => {
         if (d === "right" || d === "left") {
             const tl = gsap.timeline();
             tl.to(target.current, {
-                x: (mx - x.current > 0 ? 1 : -1) * (props.throwLimit ?? 3000) + "px",
+                x: (mx - x.current > 0 ? 1 : -1) * (props.throwLimit ?? 1000) + "px",
                 y:
                     (my - y.current > 0 ? 1 : -1) *
-                    (props.throwLimit ?? 3000) *
+                    (props.throwLimit ?? 1000) *
                     Math.tan((angle * Math.PI) / 180) +
                     "px",
                 duration: 0.5,
