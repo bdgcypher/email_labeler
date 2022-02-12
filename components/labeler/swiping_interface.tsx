@@ -272,7 +272,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                     datasetExamples.map(content => (
                         <div key={content.id}>
                             <CardSwiper
-                                throwLimit={ window.innerWidth <= 600 ? ( 500 ) : ( 3000 ) }
+                                throwLimit={ window.innerWidth <= 600 ? ( 100 ) : ( 3000 ) }
                                 onSwipe={handleSwipe}
                                 uuid={content.id}
                                 detectingSize={100}
