@@ -235,7 +235,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
 
     return (
         
-        <div className="overflow-x-hidden sm:max-w-full touch-pan-y h-screen w-screen">
+        <div className="relative overflow-x-hidden sm:max-w-full touch-pan-y h-screen w-screen">
             {/* Stats container */}
             <div className="h-80 md:h-96 px-2 md:px-10 lg:px-20 bg-gray-900">
                 {/* progress card container */}
@@ -267,7 +267,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                 <div className="flex flex-row justify-center p-0 md:p-0 text-md lg:hidden lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Swipe cards to label</div>
             </div>
             {/* cards to swipe */}
-            <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 sm:max-w-screen overflow-hidden rounded-md">
+            <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 overflow-hidden rounded-md">
                 {
                     datasetExamples.map(content => (
                         <div key={content.id}>
@@ -275,7 +275,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                                 onSwipe={handleSwipe}
                                 uuid={content.id}
                                 detectingSize={100}
-                                className="absolute top-80 md:top-1/3 lg:top-1/3 mt-0 lg:mt-28 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-2/3 bg-white rounded-md p-4 lg:p-20 overflow-y-auto overflow-x-hidden shadow-xl border-b-8 border-b-white cursor-pointer"
+                                className="absolute top-80 md:top-1/3 lg:top-1/3 -mt-10 lg:mt-28 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-2/3 bg-white rounded-md p-4 lg:p-20 overflow-y-auto overflow-x-hidden shadow-xl border-b-8 border-b-white cursor-pointer"
                                 contents={
                                     //Email content will go here vvv
                                     <>
