@@ -91,7 +91,7 @@ export const CardSwiper = (props: TProps) => {
                     (props.throwLimit ?? 3000) *
                     Math.tan((angle * Math.PI) / 180) +
                     "px",
-                duration: 0.5,
+                duration: 0,
                 ease: "power1.in",
             });
             tl.to(target.current, {
