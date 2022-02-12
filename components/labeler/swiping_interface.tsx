@@ -235,7 +235,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
 
     return (
         
-        <div className="overflow-x-hidden overflow-y-hidden sm:max-w-screen-sm touch-pan-y w-screen">
+        <div className="overflow-x-hidden overflow-y-hidden sm:max-w-full touch-pan-y w-screen">
             {/* Stats container */}
             <div className="h-80 md:h-96 px-2 md:px-10 lg:px-20 bg-gray-900">
                 {/* progress card container */}
