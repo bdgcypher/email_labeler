@@ -235,7 +235,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
 
     return (
         
-        <div className="overflow-x-hidden overflow-y-hidden touch-pan-y w-screen">
+        <div className="overflow-x-hidden overflow-y-hidden sm:max-w-screen-sm touch-pan-y w-screen">
             {/* Stats container */}
             <div className="h-80 md:h-96 px-2 md:px-10 lg:px-20 bg-gray-900">
                 {/* progress card container */}
@@ -267,7 +267,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                 <div className="flex flex-row justify-center p-0 md:p-0 text-md lg:hidden lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Swipe cards to label</div>
             </div>
             {/* cards to swipe */}
-            <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 md:mx-auto overflow-hidden rounded-md">
+            <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 sm:max-w-screen md:mx-auto overflow-hidden rounded-md">
                 {
                     datasetExamples.map(content => (
                         <div key={content.id}>
