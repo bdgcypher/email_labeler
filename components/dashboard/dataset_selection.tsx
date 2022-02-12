@@ -46,29 +46,29 @@ export default function DatasetSelection() {
                 }
             }).then(response => { console.log(response); setDatasets(response.data); }).catch(function (error) {
                 if (error.response) {
-                  // The request was made and the server responded with a status code
-                  // that falls out of the range of 2xx
-                  console.log(error.response.data);
-                  console.log(error.response.status);
-                  console.log(error.response.headers);
-                  {
-                    error.response.status === 401 ? (
-                        window.location.replace('/login')
-                    ) : error.response.status === 400 ? (
-                        window.location.replace('/login')
-                    ) : (console.log(error.response.message))
-                  }
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                    {
+                        error.response.status === 401 ? (
+                            window.location.replace('/login')
+                        ) : error.response.status === 400 ? (
+                            window.location.replace('/login')
+                        ) : (console.log(error.response.message))
+                    }
                 } else if (error.request) {
-                  // The request was made but no response was received
-                  // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                  // http.ClientRequest in node.js
-                  console.log(error.request);
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
                 } else {
-                  // Something happened in setting up the request that triggered an Error
-                  console.log(error.message);
+                    // Something happened in setting up the request that triggered an Error
+                    console.log(error.message);
                 }
                 console.log(error.config);
-              });
+            });
         } catch (err) {
             console.log(err);
         }
@@ -95,42 +95,77 @@ export default function DatasetSelection() {
 
     // Find the status of each upload for the clicked dataset and display modals for PROCESSING and FAILED. Reroute to labeler for SUCCESS
 
-    const getDatasetStatus = (dataset: any) => {
+    const getDatasetStatus = (dataset_id: any) => {
         getDatasets();
-        let datasetUploads = []
-        let datasetStatus = '';
-        let uploadProcessing = 'PROCESSING';
-        let uploadFailure = 'FAILED';
-        let uploadSuccess = 'SUCCESS';
-        console.log(dataset.id)
-        for (const upload of dataset.upload_info) {
-            console.log(upload.processing_status)
-            uploadProcessing === upload.processing_status ? datasetUploads.push('PROCESSING')
-                : uploadFailure === upload.processing_status ? datasetUploads.push('FAILED')
-                    : uploadSuccess === upload.processing_status ? datasetUploads.push('SUCCESS')
-                        : null;
-        }
-        console.log(datasetUploads)
-        datasetUploads.includes(uploadProcessing) && !datasetUploads.includes(uploadFailure) ? datasetStatus = 'PROCESSING'
-            : datasetUploads.includes(uploadFailure) ? datasetStatus = 'FAILED'
-                : datasetStatus = 'SUCCESS';
-        datasetStatus === 'PROCESSING' ? (
-            setStatus('PROCESSING'),
-            setOpen(true),
-            setProcessingStatus(true),
-            cookies.set('dataset_id', dataset.id),
-            console.log('status', status, dataset.id)
-        ) : datasetStatus === 'FAILED' ? (
-            setStatus('FAILED'),
-            setClickedDatasetId(dataset.id),
-            setOpen(true),
-            setProcessingStatus(true),
-            console.log('status', status)
-        ) : datasetStatus === 'SUCCESS' ? (
-            cookies.set('dataset', dataset),
-            cookies.set('datasetId', dataset.id),
-            window.location.replace(`/labeler/${dataset.id}`)
-        ) : (console.log("couldn't find processing status", dataset.upload_info))
+        console.log(user.token)
+        axios.get(`${Domain}dataset/${dataset_id}`, {
+            headers: {
+                "Api-Key": apiKey,
+                "Authorization": user.token
+            }
+        }).then(response => {
+            console.log(response.data);
+            let dataset = response.data;
+            let datasetUploads = []
+            let datasetStatus = '';
+            let uploadProcessing = 'PROCESSING';
+            let uploadFailure = 'FAILED';
+            let uploadSuccess = 'SUCCESS';
+            console.log(dataset.id)
+            for (const upload of dataset.upload_info) {
+                console.log(upload.processing_status)
+                uploadProcessing === upload.processing_status ? datasetUploads.push('PROCESSING')
+                    : uploadFailure === upload.processing_status ? datasetUploads.push('FAILED')
+                        : uploadSuccess === upload.processing_status ? datasetUploads.push('SUCCESS')
+                            : null;
+            }
+            console.log(datasetUploads)
+            datasetUploads.includes(uploadProcessing) && !datasetUploads.includes(uploadFailure) ? datasetStatus = 'PROCESSING'
+                : datasetUploads.includes(uploadFailure) ? datasetStatus = 'FAILED'
+                    : datasetStatus = 'SUCCESS';
+            datasetStatus === 'PROCESSING' ? (
+                setStatus('PROCESSING'),
+                setOpen(true),
+                setProcessingStatus(true),
+                cookies.set('dataset_id', dataset.id),
+                console.log('status', status, dataset.id)
+            ) : datasetStatus === 'FAILED' ? (
+                setStatus('FAILED'),
+                setClickedDatasetId(dataset.id),
+                setOpen(true),
+                setProcessingStatus(true),
+                console.log('status', status)
+            ) : datasetStatus === 'SUCCESS' ? (
+                cookies.set('dataset', dataset),
+                cookies.set('datasetId', dataset.id),
+                window.location.replace(`/labeler/${dataset.id}`)
+            ) : (console.log("couldn't find processing status", dataset.upload_info))
+        }).catch(function (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+                {
+                    error.response.status === 401 ? (
+                        window.location.replace('/login')
+                    ) : error.response.status === 400 ? (
+                        window.location.replace('/login')
+                    ) : (console.log(error.response.message))
+                }
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log(error.message);
+            }
+            console.log(error.config);
+        });
+
     }
 
     // Deleting datasets that weren't processed correctly
@@ -175,7 +210,7 @@ export default function DatasetSelection() {
                     </li>
                     {datasets ? (datasets.map((dataset) => (
                         <li key={dataset.id}>
-                            <div onClick={() => { getDatasetStatus(dataset) }} className="px-4 py-4 sm:px-6 hover:bg-gray-50 cursor-pointer">
+                            <div onClick={() => { getDatasetStatus(dataset.id) }} className="px-4 py-4 sm:px-6 hover:bg-gray-50 cursor-pointer">
                                 <div className="flex items-center justify-between">
                                     <p className="text-md font-medium text-blue-600 truncate">{dataset.name}</p>
                                 </div>
@@ -210,7 +245,7 @@ export default function DatasetSelection() {
                 </ul>
             </div>
             <Transition.Root show={open} as={Fragment}>
-                <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={() => {}}>
+                <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={() => { }}>
                     <div className="flex items-end justify-center pt-60 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
