@@ -376,7 +376,7 @@ class FileUploader extends Component {
               <div className="mt-2 px-4">
                 <p className="text-sm text-gray-500">
                   Go to your downloads, look for a file named "All mail Including Spam and Trash.mbox", hit the "Choose Files" button below, and select that file. If you do not have this this file, look
-                  for a file named "takeout-&lt;Some Number&gt;.zip", for example "takeout-20220208T001830Z-001.zip", hit the "Choose Files" button below, and select that file. Finally, hit the upload button below. Please note, you can speed up your upload by zipping the "All mail Including Spam and Trash.mbox" file and then uploading it.
+                  for a file named "takeout-&lt;Some Number&gt;.zip", for example "takeout-20220208T001830Z-001.zip", hit the "Choose Files" button below, and select that file. Finally, hit the upload button below.
                   <br />
                   <br />
                   Give your dataset a memorable name, it could be anything you want.
