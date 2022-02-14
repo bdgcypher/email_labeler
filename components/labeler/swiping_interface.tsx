@@ -275,7 +275,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                                 onSwipe={handleSwipe}
                                 uuid={content.id}
                                 detectingSize={100}
-                                className="absolute top-80 md:top-1/3 lg:top-1/3 -mt-10 lg:mt-28 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-2/3 bg-white rounded-md p-4 lg:p-20 overflow-y-auto overflow-x-hidden shadow-xl border-b-8 border-b-white cursor-pointer"
+                                className="absolute top-80 md:top-1/3 lg:top-1/3 -mt-10 lg:mt-0 left-10 right-10 h-1/2 lg:h-1/2 m-auto lg:w-2/3 bg-white rounded-md p-4 lg:p-20 overflow-y-auto overflow-x-hidden shadow-xl border-b-8 border-b-white cursor-pointer"
                                 contents={
                                     //Email content will go here vvv
                                     <>
