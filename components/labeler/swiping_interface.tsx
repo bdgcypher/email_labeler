@@ -23,6 +23,8 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
 
     const [stats, setStats] = useState({ total_size: '', num_labeled: '', num_to_label: '', dataset_accuracy: '' });
 
+    const [prompt, setPrompt] = useState({ prompt: '' })
+
     const getDatasetStats = () => {
         try {
             axios.get(`${Domain}dataset/${dataset_id}/stats`, {
@@ -58,8 +60,44 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
         }
     }
 
+    const getPrompt = () => {
+        try {
+            axios.get(`${Domain}dataset/${dataset_id}/prompt`, {
+                headers: {
+                    "Api-Key": apiKey,
+                    "Authorization": user.token
+                }
+            }).then(response => { console.log(response); setPrompt(response.data); console.log(response.data); }).catch(function (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                    {
+                        error.response.status === 401 ? (
+                            window.location.replace('/login')
+                        ) : (console.log(error.response.message))
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log(error.message);
+                }
+                console.log(error.config);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     useEffect(() => {
-        getDatasetStats()
+        getDatasetStats();
+        getPrompt();
     }, [])
 
     const checkExpiredExamples = (datasetExamples: any) => {
@@ -262,7 +300,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                     </dl>
                 </div>
                 {/* question text */}
-                <div className="flex flex-row justify-center p-4 pt-4 md:pt-6 text-md lg:text-xl text-gray-400">If you received an email with this content today, would you want to receive a notification or alert about that email?</div>
+                <div className="flex flex-row justify-center p-4 pt-4 md:pt-6 text-md lg:text-xl text-gray-400">{prompt.prompt}</div>
                 <div className="hidden flex-row justify-center p-0 md:p-0 text-md lg:flex lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Click and drag cards to label</div>
                 <div className="flex flex-row justify-center p-0 md:p-0 text-md lg:hidden lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Swipe cards to label</div>
             </div>

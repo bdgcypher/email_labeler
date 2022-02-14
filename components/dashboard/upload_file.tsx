@@ -379,7 +379,7 @@ class FileUploader extends Component {
                   for a file named "takeout-&lt;Some Number&gt;.zip", for example "takeout-20220208T001830Z-001.zip", hit the "Choose Files" button below, and select that file. Finally, hit the upload button below. Please note, you can speed up your upload by zipping the "All mail Including Spam and Trash.mbox" file and then uploading it.
                   <br />
                   <br />
-                  Give your data set a memorable name, it could be anything you want.
+                  Give your dataset a memorable name, it could be anything you want.
                 </p>
               </div>
             </div>
