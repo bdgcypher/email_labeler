@@ -1,6 +1,9 @@
 import { RiCloseFill } from 'react-icons/ri';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { MdSwipe } from 'react-icons/md';
+import { Dialog } from '@headlessui/react'
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
 import { CardSwiper } from './card_swiper_function';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
@@ -23,6 +26,8 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
 
     const [stats, setStats] = useState({ total_size: '', num_labeled: '', num_to_label: '', dataset_accuracy: '' });
 
+    const [progress, setProgress] = React.useState(0);
+
     const [prompt, setPrompt] = useState({ prompt: '' })
 
     const getDatasetStats = () => {
@@ -32,7 +37,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                     "Api-Key": apiKey,
                     "Authorization": user.token
                 }
-            }).then(response => { console.log(response); setStats(response.data); console.log((parseFloat(response.data.dataset_accuracy) * 100).toFixed(2), "% accurate"); }).catch(function (error) {
+            }).then(response => { console.log(response); setStats(response.data); console.log(progress); setProgress(((parseFloat(response.data.num_labeled) / parseFloat(response.data.total_size)) * 100)) }).catch(function (error) {
                 if (error.response) {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
@@ -272,23 +277,39 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
 
 
     return (
-        
+
         <div className="relative overflow-x-hidden sm:max-w-full touch-pan-y h-screen w-screen">
             {/* Stats container */}
             <div className="h-80 md:h-96 px-2 md:px-10 lg:px-20 bg-gray-900">
                 {/* progress card container */}
                 <div className="pt-6">
-                    <dl className="grid grid-cols-2 rounded-lg bg-white overflow-hidden shadow divide-x-2 divide-gray-300">
-                        <div key={"0"} className="px-4 py-5 sm:p-6">
-                            <dt className="text-xs md:text-base font-normal text-gray-900">Labeling Progress</dt>
-                            <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
-                                <div className="flex items-baseline text-md md:text-2xl font-semibold text-blue-600">
-                                    {stats.num_labeled}
-                                    <span className="ml-2 text-xs md:text-sm font-medium text-gray-500">of {stats.total_size}</span>
-                                </div>
-                            </dd>
+                    <dl className="grid grid-cols-1 mx-4 lg:mx-96 rounded-lg bg-white overflow-hidden shadow divide-x-2 divide-gray-300">
+                        <div className="flex flex-row">
+                            <div key={"0"} className="px-10 lg:px-20 py-5 sm:p-6">
+                                <dt className="text-xs md:text-lg font-normal text-gray-900">Labeling Progress</dt>
+                                <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
+                                    <div className="flex items-baseline text-md md:text-2xl font-semibold text-blue-600">
+                                        {stats.num_labeled}
+                                        {stats.total_size >= '5000' ? (
+                                            <span className="ml-2 text-xs md:text-sm font-medium text-gray-500">of 5000</span>
+                                        ) : (
+                                            <span className="ml-2 text-xs md:text-sm font-medium text-gray-500">of {stats.total_size}</span>
+                                        )}
+                                    </div>
+                                </dd>
+
+                            </div>
+                            <div className="my-auto">
+                                <Stack spacing={2} direction="row">
+                                    <CircularProgress variant="determinate" value={progress} />
+                                </Stack>
+                            </div>
                         </div>
-                        <div key={"1"} className="px-4 py-5 sm:p-6">
+
+
+                        {/* dataset accuracy code */}
+
+                        {/* <div key={"1"} className="px-4 py-5 sm:p-6">
                             <dt className="text-xs md:text-base font-normal text-gray-900">Dataset Accuracy</dt>
                             <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
                                 <div className="flex items-baseline text-md md:text-2xl font-semibold text-blue-600">
@@ -296,7 +317,7 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                                     <span className="ml-2 text-xs md:text-sm font-medium text-gray-500">of 95%</span>
                                 </div>
                             </dd>
-                        </div>
+                        </div> */}
                     </dl>
                 </div>
                 {/* question text */}
