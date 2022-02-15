@@ -25,7 +25,7 @@ function classNames(...classes: string[]) {
 
 export default function SwipingInterface({ datasetExamples, setDatasetExamples }) {
 
-    const [stats, setStats] = useState({ total_size: '', num_labeled: '', num_to_label: '', dataset_accuracy: '' });
+    const [stats, setStats] = useState({ total_size: '-', num_labeled: '', num_to_label: '', dataset_accuracy: '' });
 
     const [progress, setProgress] = React.useState(0);
 
