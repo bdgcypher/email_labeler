@@ -10,6 +10,7 @@ import Cookies from 'universal-cookie';
 import { Domain, apiKey } from '../domain';
 import React, { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
+import LabelingSuccess from './labeling_success';
 
 const cookies = new Cookies();
 
@@ -289,7 +290,11 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                                 <dt className="text-xs md:text-lg font-normal text-gray-900">Labeling Progress</dt>
                                 <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
                                     <div className="flex items-baseline text-md md:text-2xl font-semibold text-blue-600">
-                                        {stats.num_labeled}
+                                        {stats.num_labeled >= '5000' ? (
+                                            5000
+                                        ) : (
+                                            stats.num_labeled
+                                        )}
                                         {stats.total_size >= '5000' ? (
                                             <span className="ml-2 text-xs md:text-sm font-medium text-gray-500">of 5000</span>
                                         ) : (
@@ -325,6 +330,13 @@ export default function SwipingInterface({ datasetExamples, setDatasetExamples }
                 <div className="hidden flex-row justify-center p-0 md:p-0 text-md lg:flex lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Click and drag cards to label</div>
                 <div className="flex flex-row justify-center p-0 md:p-0 text-md lg:hidden lg:text-lg text-gray-500"><MdSwipe className="text-xl mr-2" /> Swipe cards to label</div>
             </div>
+            {/* labeling success modal to display when the user has completed all the necessary labeling */}
+            {stats.num_labeled === stats.total_size ? (
+                <LabelingSuccess />
+            ) : stats.num_labeled >= '5000' ? (
+                <LabelingSuccess />
+            ) : (null)}
+
             {/* cards to swipe */}
             <div id="swiper-container" className="bg-gray-100 p-10 md:p-20 lg:px-40 overflow-hidden rounded-md">
                 {
