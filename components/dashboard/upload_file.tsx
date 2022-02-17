@@ -146,9 +146,9 @@ class FileUploader extends Component {
       })
         .then(response => {
           response.status ? (
-          resolve(response.status)
+            resolve(response.status)
           ) : (
-            resolve(408)
+            this.setState({ uploadStarted: false, uploadError: true })
           )
         }).catch(function (error) {
           if (error.response) {
@@ -159,7 +159,7 @@ class FileUploader extends Component {
             console.log(error.response.headers);
             {
               error.response.status === 401 ? (
-                  window.location.replace('/login')
+                window.location.replace('/login')
               ) : error.response.status === 408 ? (
                 this.setState({ uploadStarted: false, uploadError: true }),
                 console.log(error.response.message)
@@ -266,7 +266,7 @@ class FileUploader extends Component {
           console.log(`We are deleting dataset: ${dataset_id}`)
 
           this.deleteDataset(dataset_id, api_key, auth_token)
-          this.setState({ uploadStarted: false, uploadError: true});
+          this.setState({ uploadStarted: false, uploadError: true });
 
           return false;
         }
