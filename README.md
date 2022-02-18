@@ -1,6 +1,6 @@
-## email-labeler
+## email_labeler
 
-This is a web app created to upload and label examples for datasets to train our active learning models for Branch LLC.
+This is a web app created to upload and label dataset examples. These examples will be used to train our active learning models for Branch LLC.
 
 ## Uploaing datasets
 
