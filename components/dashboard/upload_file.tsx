@@ -163,7 +163,10 @@ class FileUploader extends Component {
               ) : error.response.status === 408 ? (
                 this.setState({ uploadStarted: false, uploadError: true }),
                 console.log(error.response.message)
-              ) : (console.log(error.response.message))
+              ) : (
+                this.setState({ uploadStarted: false, uploadError: true }),
+                console.log(error.response.message)
+                )
             }
           } else if (error.request) {
             // The request was made but no response was received
