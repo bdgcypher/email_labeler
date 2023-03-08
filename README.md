@@ -2,7 +2,7 @@
 
 This is a web app created to upload and label dataset examples. These examples will be used to train our active learning models for Branch LLC.
 
-## Uploaing datasets
+## Uploading datasets
 
 Go to the [Labeler App](https://notifai.netlify.app/) and create an account. From the dashboard click the 'Upload Dataset' button.
 Follow the steps to upload your dataset. For now it is limited to email data in the .mbox format...
